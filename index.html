@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#0b1220" />
+    <title>CPOS - Card Pack Opening Simulator</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="app-shell">
+      <header class="topbar">
+        <button class="brand" data-action="home" aria-label="Go to dashboard">
+          <span class="brand-mark">✦</span>
+          <span><strong>CPOS</strong><small>Card Pack Opening Simulator</small></span>
+        </button>
+        <div class="topbar-actions">
+          <button class="text-button" data-action="import"><span>↓</span> Import</button>
+          <button class="text-button" data-action="export"><span>↑</span> Export</button>
+          <button class="button button-primary" data-action="new-pack">+ New pack</button>
+        </div>
+      </header>
+
+      <main id="app"></main>
+      <input id="import-file" type="file" accept=".json,.txt,application/json,text/plain" hidden />
+      <div id="toast" class="toast" role="status"></div>
+    </div>
+    <script src="app.js"></script>
+  </body>
+</html>

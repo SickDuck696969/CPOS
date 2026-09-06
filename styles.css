@@ -73,3 +73,10 @@ button { cursor: pointer; }
 @keyframes reveal { from{opacity:0;transform:translateY(8px)} to{opacity:1;transform:none} } @keyframes card-in { from{opacity:0;transform:scale(.5) rotate(-15deg)} to{opacity:1;transform:none} } @keyframes card-reveal { 0%{transform:rotateY(90deg) scale(.8);opacity:0} 100%{transform:rotateY(0) scale(1);opacity:1} }
 .toast { position:fixed; right:25px; bottom:25px; padding:13px 16px; color:#09131e; background:var(--mint); font-size:12px; box-shadow:0 10px 30px rgba(0,0,0,.25); transform:translateY(20px); opacity:0; pointer-events:none; transition:.25s; }.toast.show { opacity:1; transform:none; }
 @media (max-width: 760px) { .app-shell { padding:0 17px 60px; }.topbar { min-height:72px; }.topbar-actions { gap:9px; }.topbar-actions .text-button { font-size:0; }.topbar-actions .text-button span { font-size:20px; }.hero { display:block; padding-top:35px; }.hero p { margin-top:18px; }.editor-grid { grid-template-columns:1fr; }.editor-head { display:block; }.editor-actions { margin-top:20px; }.card-entry { grid-template-columns:52px 1fr auto; }.card-entry .thumb { width:52px; }.card-entry input:last-of-type { grid-column:2/-1; }.cover-preview { height:290px; }.stage { min-height:360px; }.opening-card { width:170px; height:240px; }.select { max-width:145px; } }
+.pack-cover img, .opening-card img, .collection-card img { object-fit: contain; background: #101b2e; }
+.thumb { object-fit: contain; }
+.rarity-columns { display:grid; grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); gap:18px; align-items:start; }
+.rarity-columns .rarity-block { border:1px solid var(--line); padding:16px; background:rgba(5,12,24,.25); }
+.structure-tools { display:flex; gap:8px; margin:-4px 0 18px; }
+.slot select[multiple] { min-height:72px; padding:7px; }
+.slot select[multiple] option { padding:4px; }

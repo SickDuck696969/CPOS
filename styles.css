@@ -80,3 +80,9 @@ button { cursor: pointer; }
 .structure-tools { display:flex; gap:8px; margin:-4px 0 18px; }
 .slot select[multiple] { min-height:72px; padding:7px; }
 .slot select[multiple] option { padding:4px; }
+.dashboard-stats { display:flex; align-items:center; gap:28px; margin:0 0 25px; padding:15px 18px; border:1px solid var(--line); background:rgba(17,28,47,.55); }
+.dashboard-stats > div { display:grid; gap:4px; padding-right:28px; border-right:1px solid var(--line); }
+.dashboard-stats span, .dashboard-stats small { color:var(--muted); font:10px "DM Mono",monospace; text-transform:uppercase; letter-spacing:.08em; }
+.dashboard-stats strong { font-size:21px; font-weight:500; }.dashboard-stats small { font-size:10px; text-transform:none; letter-spacing:0; }.dashboard-stats .button { margin-left:auto; }
+.pack-progress { display:grid; gap:6px; margin:0 0 10px; color:var(--muted); font:9px "DM Mono",monospace; text-transform:uppercase; letter-spacing:.05em; }.pack-progress i { display:block; height:3px; background:#23334d; overflow:hidden; }.pack-progress b { display:block; height:100%; background:var(--mint); }
+@media (max-width:760px) { .dashboard-stats { display:grid; grid-template-columns:1fr 1fr; gap:14px; }.dashboard-stats > div { padding-right:0; border-right:0; }.dashboard-stats .button { margin:0; grid-column:1/-1; width:100%; }.toolbar { flex-wrap:wrap; }.toolbar .search { min-width:100%; max-width:none; }.toolbar .select { height:40px; flex:1; } }

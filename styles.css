@@ -86,3 +86,28 @@ button { cursor: pointer; }
 .dashboard-stats strong { font-size:21px; font-weight:500; }.dashboard-stats small { font-size:10px; text-transform:none; letter-spacing:0; }.dashboard-stats .button { margin-left:auto; }
 .pack-progress { display:grid; gap:6px; margin:0 0 10px; color:var(--muted); font:9px "DM Mono",monospace; text-transform:uppercase; letter-spacing:.05em; }.pack-progress i { display:block; height:3px; background:#23334d; overflow:hidden; }.pack-progress b { display:block; height:100%; background:var(--mint); }
 @media (max-width:760px) { .dashboard-stats { display:grid; grid-template-columns:1fr 1fr; gap:14px; }.dashboard-stats > div { padding-right:0; border-right:0; }.dashboard-stats .button { margin:0; grid-column:1/-1; width:100%; }.toolbar { flex-wrap:wrap; }.toolbar .search { min-width:100%; max-width:none; }.toolbar .select { height:40px; flex:1; } }
+
+/* Keep dense editor controls usable on small screens without changing the desktop layout. */
+html, body { overflow-x:hidden; }
+img { max-width:100%; }
+.app-shell, .topbar, main, .panel, .editor-stack, .editor-grid { min-width:0; }
+.hero h1, .editor-head h1, .opening-head h1, .pack-meta h3 { overflow-wrap:anywhere; }
+@media (max-width: 560px) {
+  .app-shell { padding-left:12px; padding-right:12px; }
+  .topbar { align-items:center; gap:8px; }
+  .brand { min-width:0; }.brand > span:last-child { min-width:0; }.brand small { display:block; max-width:145px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+  .topbar-actions { flex-shrink:0; gap:4px; }.topbar-actions .button { padding:10px 9px; font-size:11px; }.topbar-actions .text-button { padding:5px; }
+  .hero { padding-bottom:20px; }.hero h1 { font-size:clamp(30px, 11vw, 43px); }.hero p { font-size:12px; }
+  .dashboard-stats { padding:13px; gap:12px; }.dashboard-stats strong { font-size:18px; }
+  .toolbar .select { min-width:0; padding-left:8px; padding-right:8px; font-size:11px; }
+  .pack-grid { grid-template-columns:repeat(2, minmax(0,1fr)); gap:17px 10px; }.pack-cover { height:auto; aspect-ratio:3 / 4; }.pack-meta { align-items:start; padding-top:10px; }.pack-meta h3 { font-size:13px; }.pack-meta p { font-size:9px; line-height:1.35; }.favorite { font-size:17px; }
+  .editor-head { padding-top:32px; }.editor-head h1 { font-size:29px; }.editor-actions { flex-wrap:wrap; }.editor-actions .button { flex:1; }
+  .panel { padding:17px; }.cover-preview { height:auto; aspect-ratio:3 / 4; }.row { align-items:stretch; }.row .inline-add { align-self:end; }.structure-tools { flex-wrap:wrap; }.structure-tools .small-button { flex:1; }
+  .rarity-columns { grid-template-columns:1fr; }.card-entry { grid-template-columns:48px minmax(0,1fr) auto; }.card-entry .thumb { width:48px; }.card-entry input:nth-of-type(2) { grid-column:2 / -1; }.card-entry .small-button { padding:8px; }
+  .opening { padding:35px 0; }.opening-head h1 { font-size:31px; }.stage { min-height:310px; margin:20px 0; }.opening-card { width:min(170px,58vw); height:auto; aspect-ratio:2 / 3; }.opening-card .cover-fallback { padding:18px; }.opening-card .cover-fallback strong { font-size:16px; }.opening-controls { flex-wrap:wrap; }.opening-controls .button { width:100%; }
+  .collection-grid { grid-template-columns:repeat(2,minmax(0,1fr)); padding:12px; gap:12px; }.collection-card img, .collection-card .mini-fallback { height:auto; aspect-ratio:2 / 3; }.collection-card figcaption { display:block; }.collection-card figcaption span { display:block; margin-top:4px; }
+}
+@media (max-width: 350px) {
+  .brand small { display:none; }.brand-mark { width:31px; height:31px; }.topbar-actions .text-button { display:none; }.topbar-actions .button { padding:9px 8px; }
+  .pack-grid { grid-template-columns:1fr; }.pack-cover { aspect-ratio:4 / 5; }.dashboard-stats { grid-template-columns:1fr 1fr; }.editor-actions .button { font-size:11px; padding:10px 8px; }
+}

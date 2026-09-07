@@ -273,6 +273,15 @@ body::before { background:radial-gradient(circle at 8% 0%,rgba(74,157,143,.15),t
 .opening:has(.result-page) .result-gallery { width:100%; max-width:none; grid-template-columns:repeat(var(--result-count),minmax(0,clamp(42px,7.2vw,116px))); justify-content:center; justify-items:center; margin-left:auto; margin-right:auto; }
 @media (max-width:760px) { .opening:has(.result-page) .result-gallery { grid-template-columns:repeat(var(--result-count),minmax(0,clamp(25px,7.4vw,72px))); } }
 
+/* Collection cards use the image, rarity group, and copy count without a second name line. */
+.collection-browser .collection-card figcaption strong { display:none!important; }
+.collection-browser .collection-card figcaption { justify-content:center; }
+
+/* Names that remain useful in the editor/reveal stay on one controlled line. */
+.opening-label strong, .review-card strong, .card-entry input[data-key="name"] { display:block; max-width:100%; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+.opening-label { top:-56px!important; }
+@media (max-width:760px) { .opening-label { top:-48px!important; } }
+
 /* Dedicated pack result screen. */
 .result-page { min-height:calc(100vh - 70px); width:100%; display:grid; place-items:center; text-align:center; padding:28px 18px 40px; }
 .result-space { width:100%; min-height:calc(100vh - 150px); display:flex; flex-direction:column; justify-content:center; align-items:center; cursor:default; }

@@ -533,9 +533,3 @@ body::before { background:radial-gradient(circle at 8% 0%,rgba(74,157,143,.15),t
 .leaderboard-section:first-of-type { margin-top:16px; }
 .leaderboard-section h3 { margin:0 0 8px; color:var(--mint); font:11px "DM Mono",monospace; text-transform:uppercase; letter-spacing:.08em; }
 .leaderboard-section > div { display:grid; grid-template-columns:32px minmax(0,1fr) auto; gap:10px; padding:10px 0; border-bottom:1px solid var(--line); }
-.qr-modal { width:min(390px,100%); text-align:center; }
-.qr-modal h2 { margin-bottom:18px; }
-.qr-code { display:block; width:min(280px,78vw); aspect-ratio:1; margin:0 auto 18px; padding:10px; background:#fff; border-radius:10px; image-rendering:auto; }
-.qr-note, .qr-warning { margin:0 auto 18px; max-width:310px; color:var(--muted); font:11px/1.6 "DM Mono",monospace; }
-.qr-warning { color:var(--gold); }
-.qr-modal .choice-actions { justify-content:center; }

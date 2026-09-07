@@ -464,6 +464,44 @@ body::before { background:radial-gradient(circle at 8% 0%,rgba(74,157,143,.15),t
 }
 @keyframes cpos-rarity-sheen { 0% { background-position:180% 0; opacity:.15; } 35% { opacity:.9; } 100% { background-position:-80% 0; opacity:.72; } }
 
+/* Final opener state: show the intact cover first, then split it into top and bottom. */
+.opening .opening-shell .stage .card-stack .pack-waiting:not(.pack-ripping) {
+  display:block!important; position:absolute!important; inset:0!important; width:100%!important; height:100%!important;
+  opacity:1!important; overflow:hidden!important; background:transparent!important;
+}
+.opening .opening-shell .stage .card-stack .pack-waiting:not(.pack-ripping) .pack-art-body {
+  display:block!important; position:absolute!important; inset:0!important; width:100%!important; height:100%!important;
+  clip-path:none!important; opacity:1!important; overflow:visible!important; animation:none!important;
+}
+.opening .opening-shell .stage .card-stack .pack-waiting:not(.pack-ripping) .pack-art-top,
+.opening .opening-shell .stage .card-stack .pack-waiting:not(.pack-ripping)::before,
+.opening .opening-shell .stage .card-stack .pack-waiting:not(.pack-ripping)::after {
+  display:none!important; content:none!important; opacity:0!important; animation:none!important;
+}
+.opening .opening-shell .stage .card-stack .pack-waiting.pack-ripping .pack-art-body {
+  clip-path:polygon(0 52%,8% 49%,16% 53%,24% 49%,32% 54%,40% 49%,48% 53%,56% 49%,64% 54%,72% 49%,80% 53%,87% 49%,94% 52%,100% 49%,100% 100%,0 100%)!important;
+}
+.opening .opening-shell .stage .card-stack .pack-waiting.pack-ripping .pack-art-top {
+  clip-path:polygon(0 0,100% 0,100% 52%,94% 49%,87% 53%,80% 49%,72% 54%,64% 49%,56% 53%,48% 49%,40% 54%,32% 49%,24% 53%,16% 49%,8% 52%,0 49%)!important;
+}
+
+/* High-rarity decoration is intentionally disabled. */
+.opening .opening-shell .stage .card-stack .opening-card.rarity-card-tier-2::before,
+.opening .opening-shell .stage .card-stack .opening-card.rarity-card-tier-2::after,
+.opening .opening-shell .stage .card-stack .opening-card.rarity-card-tier-3::before,
+.opening .opening-shell .stage .card-stack .opening-card.rarity-card-tier-3::after,
+.opening .opening-shell .stage .card-stack .opening-card.rarity-card-tier-4::before,
+.opening .opening-shell .stage .card-stack .opening-card.rarity-card-tier-4::after {
+  display:none!important; content:none!important; animation:none!important; background:none!important;
+  box-shadow:none!important; border:0!important; opacity:0!important;
+}
+.opening .opening-shell .stage .card-stack .opening-card.rarity-card-tier-1,
+.opening .opening-shell .stage .card-stack .opening-card.rarity-card-tier-2,
+.opening .opening-shell .stage .card-stack .opening-card.rarity-card-tier-3,
+.opening .opening-shell .stage .card-stack .opening-card.rarity-card-tier-4 {
+  border:0!important; box-shadow:none!important; filter:none!important;
+}
+
 /* Ten cards is the desktop maximum; only narrow screens reduce the count. */
 @media (min-width:761px) {
   .collection-browser .rarity-cards, .collection-grid .rarity-cards { grid-template-columns:repeat(10,minmax(0,1fr))!important; }

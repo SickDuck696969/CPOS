@@ -46,6 +46,17 @@ action = function(type, meta={}) { if (type === 'speedrun-menu') { view.speedrun
 setInterval(() => { if (view.speedrun && view.page === 'opening' && view.revealIndex < (view.opening || []).length) { const el=document.querySelector('[data-speedrun-time]'); if (el) { const ms=performance.now()-view.speedrun.started; el.textContent=`${Math.floor(ms/60000).toString().padStart(2,'0')}:${Math.floor(ms/1000%60).toString().padStart(2,'0')}.${Math.floor(ms%1000/10).toString().padStart(2,'0')}`; } } }, 50);
 setInterval(() => { if (view.speedrun?.mode === 'rush' && !view.speedrun.finished) { const el=document.querySelector('[data-speedrun-time]'); if (el) { const remaining=Math.max(0, view.speedrun.limit - (performance.now() - view.speedrun.started)); el.textContent=`${Math.floor(remaining/60000).toString().padStart(2,'0')}:${Math.floor(remaining/1000%60).toString().padStart(2,'0')}.${Math.floor(remaining%1000/10).toString().padStart(2,'0')}`; } } }, 50);
 setTimeout(() => { opening = function() { return splitPackOpening(); }; render(); }, 30);
+
+// Keep slot rarity controls clickable after the legacy editor declaration.
+const nativeSlotEditor = editor;
+editor = function() {
+  const p = view.editor;
+  return nativeSlotEditor().replace(/<select multiple data-slot="(\d+)"[^>]*>[\s\S]*?<\/select>/g, (_, index) => {
+    const choices = Array.isArray(p.slots[Number(index)]) ? p.slots[Number(index)] : [p.slots[Number(index)]];
+    return `<div class="slot-rarity-buttons" data-slot-buttons="${index}">${p.rarities.map(r => `<button type="button" class="slot-rarity-button ${choices.includes(r.id) ? 'selected' : ''}" data-action="toggle-slot-rarity" data-index="${index}" data-rarity="${r.id}">${escapeHtml(r.name)}</button>`).join('')}</div>`;
+  });
+};
+render();
 setInterval(() => { if (view.speedrun?.mode === 'rush' && !view.speedrun.finished && performance.now() - view.speedrun.started >= view.speedrun.limit) finishRush(); }, 100);
 
 // Legacy startup callbacks above replace `opening` once; restore the current renderer after they finish.

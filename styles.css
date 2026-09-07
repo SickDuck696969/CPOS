@@ -220,6 +220,22 @@ img { max-width:100%; }
 .manual-sections strong { color:var(--mint); font-size:12px; }
 .manual-sections span { color:var(--muted); font-size:11px; line-height:1.5; }
 
+/* Dedicated pack result screen. */
+.result-page { min-height:calc(100vh - 70px); width:100%; display:grid; place-items:center; text-align:center; padding:28px 18px 40px; }
+.result-space { width:100%; min-height:calc(100vh - 150px); display:flex; flex-direction:column; justify-content:center; align-items:center; cursor:default; }
+.result-header { width:min(1500px,100%); display:flex; align-items:center; justify-content:space-between; gap:24px; text-align:left; padding:0 8px 24px; }
+.result-header h1 { margin:7px 0 5px; font-size:clamp(28px,4vw,48px); letter-spacing:-.05em; }
+.result-header p { margin:0; color:var(--muted); font:11px "DM Mono",monospace; }
+.result-actions { display:flex; gap:10px; flex-shrink:0; }
+.result-gallery { width:min(1500px,100%); display:grid; grid-template-columns:repeat(var(--result-count),minmax(0,1fr)); gap:clamp(7px,1.2vw,18px); align-items:start; justify-items:center; padding:18px 8px 22px; }
+.result-card { position:relative; width:100%; min-width:0; text-align:center; }
+.result-card-image { width:100%; aspect-ratio:2 / 3; display:grid; place-items:center; }
+.result-card-image img, .result-card-image .cover-fallback { width:100%; height:100%; object-fit:contain; border:0!important; outline:0!important; background:transparent!important; box-shadow:none!important; }
+.result-card small { display:block; margin-top:9px; color:var(--gold); font:9px "DM Mono",monospace; text-transform:uppercase; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+.result-card:hover { transform:none!important; }
+.result-hint { margin:12px 0 0; color:var(--muted); font:10px "DM Mono",monospace; letter-spacing:.04em; }
+@media (max-width:760px) { .result-page { padding:20px 8px 28px; }.result-header { display:grid; justify-items:center; text-align:center; padding-bottom:12px; }.result-actions { width:100%; justify-content:center; }.result-gallery { gap:4px; padding-left:2px; padding-right:2px; }.result-card small { font-size:7px; margin-top:5px; }.result-hint { font-size:8px; } }
+
 /* The rip is made from two real copies of the pack art, not a painted overlay. */
 .pack-waiting { position:relative; overflow:visible!important; display:block!important; }
 .pack-art-body, .pack-art-top { position:absolute; inset:0; width:100%; height:100%; overflow:hidden; }

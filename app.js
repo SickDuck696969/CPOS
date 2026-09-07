@@ -57,6 +57,13 @@ editor = function() {
   });
 };
 render();
+
+// Do not let the Play modal backdrop consume clicks intended for its selects.
+const safeSpeedrunModal = speedrunModal;
+speedrunModal = function() {
+  return safeSpeedrunModal().replace('class="choice-backdrop" data-action="close-speedrun-menu"', 'class="choice-backdrop"');
+};
+render();
 setInterval(() => { if (view.speedrun?.mode === 'rush' && !view.speedrun.finished && performance.now() - view.speedrun.started >= view.speedrun.limit) finishRush(); }, 100);
 
 // Legacy startup callbacks above replace `opening` once; restore the current renderer after they finish.

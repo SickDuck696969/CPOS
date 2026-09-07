@@ -22,6 +22,22 @@ function toast(message) { const el=document.getElementById('toast'); el.textCont
 document.addEventListener('change', e => { if(e.target.dataset.model === 'rarity') { view.rarity=e.target.value; } });
 render();
 
+// Keep the split-pack renderer last so later legacy overrides cannot replace it.
+opening = function() { return splitPackOpening(); };
+render();
+
+// Render the unopened pack as two synchronized image pieces during the rip.
+function splitPackOpening() {
+  const p = data.packs.find(x => x.id === view.packId), cards = view.opening || [], current = cards?.[view.revealIndex], complete = view.revealIndex >= cards.length;
+  if (complete) return reviewOpening();
+  const tier = current ? rarityTier(p, current.rarityId) : 0;
+  const label = current ? `<div class="opening-label"><span>${escapeHtml(current.rarityName)}</span><strong>${escapeHtml(current.name)}</strong></div>` : '';
+  const packImage = p.cover ? `<img src="${escapeHtml(p.cover)}" alt="${escapeHtml(p.name)}" />` : fallback(p.name);
+  const waiting = `<div class="pack-waiting${view.packRipping ? ' pack-ripping' : ''}"><div class="pack-art-body">${packImage}</div><div class="pack-art-top">${packImage}</div></div>`;
+  return `<section class="opening"><div class="opening-shell"><div class="opening-head"><div class="eyebrow">Opening sequence · ${p.slots.length} cards</div><h1>${escapeHtml(p.name)}</h1><p>${complete ? 'Pack review complete. Every card from this opening is shown below.' : view.packRipping ? 'Tearing the pack open...' : view.revealIndex < 0 ? 'The pack is ready. Reveal each card one at a time.' : 'A new card has appeared.'}</p></div>${complete ? reviewOpening() : `<div class="stage stack-stage rarity-stage-${tier}"><div class="card-stack">${current ? `${label}<div class="opening-card reveal rarity-card-tier-${tier}">${current.image ? `<img src="${escapeHtml(current.image)}" alt="" />` : fallback('')}${current.isNew ? '<span class="new-badge">NEW</span>' : ''}</div>` : waiting}</div></div>`}<div class="opening-controls"><button class="button button-quiet" data-action="home">← Back to packs</button>${complete ? `<button class="button button-primary" data-action="open" data-id="${p.id}">Open one more</button>` : `<button class="button button-primary" data-action="reveal">${view.revealIndex < 0 ? 'Rip open pack' : 'Reveal next card'} →</button><button class="button button-quiet" data-action="skip-opening">Skip to review</button>`}</div><div class="progress">${view.revealIndex < 0 ? 'READY' : `${Math.min(view.revealIndex + 1, cards.length)} / ${cards.length} REVEALED`}</div></div></section>`;
+}
+opening = function() { return splitPackOpening(); };
+
 opening = stackOpening;
 const stackOpeningBase = stackOpening; stackOpening = function() { let html = stackOpeningBase(); if (view.packRipping) html = html.replace('class="pack-waiting"', 'class="pack-waiting pack-ripping"'); return html; }; setTimeout(() => { opening = stackOpening; render(); }, 0);
 setTimeout(() => { const editorWithoutBack = editor; editor = function() { return editorWithoutBack().replace(/<div class="field"><label>Card back image URL<\/label>[\s\S]*?<\/div>/, ''); }; const reviewWithoutBack = reviewOpening; reviewOpening = function() { return reviewWithoutBack().replace('<div class="review-cards">', `<div class="review-cards" style="--review-count:${(view.opening || []).length}">`); }; packContent = function(pack) { return { id: pack.id, name: pack.name, cover: pack.cover || '', description: pack.description || '', structureName: pack.structureName || '', rarities: pack.rarities || [], slots: pack.slots || [], cards: pack.cards || [] }; }; opening = function() { return view.revealIndex >= (view.opening || []).length ? reviewOpening() : stackOpening(); }; render(); }, 0);
@@ -98,4 +114,8 @@ const normalOpeningRenderer = opening;
 opening = function() { let html = normalOpeningRenderer(); if (view.packRipping) { html = html.replace('The pack is ready. Reveal each card one at a time.', 'The seal is breaking...').replace('class="opening-card"', 'class="opening-card pack-ripping"'); } else if (view.revealIndex < 0) { html = html.replace('class="opening-card"', 'class="opening-card pack-waiting"'); } return html; };
 const normalActionRenderer = action;
 action = function(type, meta={}) { if (type === 'reveal' && view.page === 'opening' && view.revealIndex < 0 && !view.packRipping) { view.packRipping = true; render(); view.ripTimer = setTimeout(() => { view.packRipping = false; view.revealIndex = 0; const card = view.opening[0]; data.obtained[card.id] = (data.obtained[card.id] || 0) + 1; save(); render(); }, 700); return; } if (type === 'skip-opening' && view.packRipping) { clearTimeout(view.ripTimer); view.packRipping = false; } normalActionRenderer(type, meta); };
+render();
+
+// Keep the split-pack renderer last so legacy render overrides cannot replace it.
+opening = function() { return splitPackOpening(); };
 render();

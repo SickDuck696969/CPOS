@@ -161,3 +161,16 @@ img { max-width:100%; }
 .pack-cover, .opening-card, .collection-card, .review-card, .thumb, .mini-fallback, .opening-card img, .pack-cover img, .collection-card img, .review-card > img { border:0!important; outline:0!important; }.pack-cover { aspect-ratio:2 / 3; height:auto; }.opening-card { width:min(250px,62vw); height:auto; aspect-ratio:2 / 3; }.opening-card img { width:100%; height:100%; }.collection-card, .review-card { box-shadow:none; }.rarity-row .collection-card img, .review-card > img { width:100%; height:auto; aspect-ratio:2 / 3; }.rarity-card-tier-1, .rarity-card-tier-2, .rarity-card-tier-3, .rarity-card-tier-4 { overflow:visible; }
 @media (max-width:760px) { .opening-card { width:min(210px,62vw); }.pack-cover { aspect-ratio:2 / 3; } }
 @media (max-width:760px) { .card-stack { width:200px; height:300px; }.review-cards { gap:7px; } }
+
+/* The rip is made from two real copies of the pack art, not a painted overlay. */
+.pack-waiting { position:relative; overflow:visible!important; display:block!important; }
+.pack-art-body, .pack-art-top { position:absolute; inset:0; width:100%; height:100%; overflow:hidden; }
+.pack-art-body img, .pack-art-top img { position:absolute; inset:0; width:100%; height:100%; object-fit:contain; border:0!important; background:transparent!important; }
+.pack-art-top { display:none; z-index:3; transform-origin:50% 100%; pointer-events:none; }
+.pack-waiting.pack-ripping .pack-art-body { clip-path:polygon(0 0,100% 0,100% 52%,94% 50%,87% 54%,80% 49%,72% 53%,64% 49%,56% 54%,48% 49%,40% 53%,32% 49%,24% 54%,16% 49%,8% 53%,0 49%); }
+.pack-waiting.pack-ripping .pack-art-top { display:block; clip-path:polygon(0 0,100% 0,100% 53%,92% 49%,84% 54%,76% 49%,68% 53%,60% 49%,52% 54%,44% 49%,36% 53%,28% 49%,20% 54%,12% 49%,0 53%); animation:real-pack-top-rip .72s cubic-bezier(.16,.82,.25,1) both; }
+.pack-waiting.pack-ripping::before { z-index:4!important; left:10%!important; right:10%!important; top:45%!important; height:10%!important; filter:blur(9px)!important; background:linear-gradient(180deg,rgba(255,255,255,.9),rgba(255,238,177,.3),transparent)!important; }
+.pack-waiting.pack-ripping::after { z-index:5!important; }
+@keyframes real-pack-top-rip { 0% { opacity:1; transform:perspective(700px) rotateX(0deg) translateY(0); } 16% { opacity:1; transform:perspective(700px) rotateX(-8deg) translateY(-3px); } 100% { opacity:1; transform:perspective(700px) rotateX(72deg) translateY(-33%); } }
+@media (max-width:760px) { .pack-waiting.pack-ripping .pack-art-top { animation-name:real-pack-top-rip-mobile; } }
+@keyframes real-pack-top-rip-mobile { 0% { opacity:1; transform:perspective(520px) rotateX(0deg); } 100% { opacity:1; transform:perspective(520px) rotateX(68deg) translateY(-28%); } }

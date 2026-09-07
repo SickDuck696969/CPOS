@@ -162,6 +162,16 @@ img { max-width:100%; }
 @media (max-width:760px) { .opening-card { width:min(210px,62vw); }.pack-cover { aspect-ratio:2 / 3; } }
 @media (max-width:760px) { .card-stack { width:200px; height:300px; }.review-cards { gap:7px; } }
 
+/* Pack review is a full-width gallery, not a clipped panel inside the opener. */
+.opening-shell:has(.review-panel) { width:min(1500px,100%); }
+.opening-shell:has(.review-panel) .review-panel { width:calc(100vw - 32px); max-width:1500px; margin:10px 0 0 50%; transform:translateX(-50%); overflow:visible; border:0!important; background:transparent!important; }
+.opening-shell:has(.review-panel) .review-cards { display:grid; grid-template-columns:repeat(var(--review-count),minmax(145px,1fr))!important; width:100%; min-width:calc(var(--review-count) * 145px); padding:28px 10px 32px; overflow:visible!important; align-items:start; }
+.opening-shell:has(.review-panel) .review-card { width:auto!important; min-width:0; position:relative; z-index:1; transform-origin:center bottom; }
+.opening-shell:has(.review-panel) .review-card:hover { z-index:20; transform:translateY(-10px) scale(1.14); }
+.opening-shell:has(.review-panel) .review-card > img, .opening-shell:has(.review-panel) .review-card > .cover-fallback { width:100%!important; height:auto!important; aspect-ratio:2 / 3; object-fit:contain; }
+.opening-shell:has(.review-panel) .review-heading { border-bottom:1px solid rgba(114,226,192,.22); padding-bottom:16px; }
+@media (max-width:760px) { .opening-shell:has(.review-panel) .review-panel { width:calc(100vw - 16px); }.opening-shell:has(.review-panel) .review-cards { grid-template-columns:repeat(var(--review-count),minmax(122px,1fr))!important; min-width:calc(var(--review-count) * 122px); padding-left:4px; padding-right:4px; }.opening-shell:has(.review-panel) .review-card:hover { transform:translateY(-7px) scale(1.08); } }
+
 /* The rip is made from two real copies of the pack art, not a painted overlay. */
 .pack-waiting { position:relative; overflow:visible!important; display:block!important; }
 .pack-art-body, .pack-art-top { position:absolute; inset:0; width:100%; height:100%; overflow:hidden; }

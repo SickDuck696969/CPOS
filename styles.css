@@ -282,6 +282,23 @@ body::before { background:radial-gradient(circle at 8% 0%,rgba(74,157,143,.15),t
 .opening-label { top:-56px!important; }
 @media (max-width:760px) { .opening-label { top:-48px!important; } }
 
+/* Result page v2: a clean gallery with no inherited review-panel layout. */
+.result-page { min-height:100vh; width:100%; padding:clamp(24px,5vw,70px) clamp(14px,4vw,64px); background:linear-gradient(145deg,#071018 0%,#0a171d 55%,#0d1d24 100%); }
+.result-space { min-height:calc(100vh - 120px); width:100%; max-width:1500px; margin:0 auto; display:flex; flex-direction:column; justify-content:center; }
+.result-header { display:flex; align-items:end; justify-content:space-between; gap:25px; width:100%; padding:0; }
+.result-title h1 { margin:8px 0 10px; color:var(--ink); font-size:clamp(30px,5vw,70px); line-height:.95; letter-spacing:-.07em; }
+.result-title > strong { color:var(--mint); font:500 11px "DM Mono",monospace; letter-spacing:.12em; text-transform:uppercase; }
+.result-actions { display:flex; gap:8px; flex-shrink:0; }.result-divider { width:100%; height:1px; margin:30px 0 28px; background:var(--line); }
+.result-gallery { display:flex!important; width:100%!important; max-width:100%!important; margin:0!important; padding:0!important; gap:clamp(5px,1.2vw,18px); justify-content:center!important; align-items:flex-start; }
+.result-card { flex:1 1 0; width:auto!important; max-width:122px; min-width:0; display:flex; flex-direction:column; align-items:center; text-align:center; }
+.result-card-image { width:100%; aspect-ratio:2 / 3; }.result-card-image img,.result-card-image .cover-fallback { width:100%; height:100%; object-fit:contain; }
+.result-card small { width:100%; margin-top:9px; color:var(--gold); font:8px "DM Mono",monospace; letter-spacing:.04em; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+.result-card-name { width:max-content; max-width:none; margin-top:5px; color:var(--ink); font-size:clamp(8px,1vw,12px); font-weight:500; white-space:nowrap; overflow:visible; text-overflow:clip; }
+.result-footer { display:flex; justify-content:space-between; gap:20px; margin-top:30px; color:var(--muted); font:9px "DM Mono",monospace; }
+.result-hint { display:none!important; }
+@media (max-width:760px) { .result-page { padding:26px 10px; }.result-space { min-height:calc(100vh - 52px); }.result-header { align-items:center; display:grid; justify-items:center; text-align:center; }.result-actions { width:100%; justify-content:center; }.result-actions .button { flex:1; }.result-divider { margin:22px 0 20px; }.result-gallery { gap:3px; }.result-card { max-width:none; }.result-card-name { font-size:7px; }.result-footer { justify-content:center; text-align:center; }.result-footer span:first-child { display:none; } }
+.opening-label strong, .review-card strong { max-width:none!important; overflow:visible!important; text-overflow:clip!important; }
+
 /* Dedicated pack result screen. */
 .result-page { min-height:calc(100vh - 70px); width:100%; display:grid; place-items:center; text-align:center; padding:28px 18px 40px; }
 .result-space { width:100%; min-height:calc(100vh - 150px); display:flex; flex-direction:column; justify-content:center; align-items:center; cursor:default; }

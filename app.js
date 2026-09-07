@@ -1,6 +1,9 @@
 const STORAGE_KEY = 'cpos-data-v1';
 const uid = () => Math.random().toString(36).slice(2, 10);
 let data = load(); let view = { page: 'home', query: '', rarity: 'all', packId: null, editor: null, opening: null, revealIndex: -1 };
+function normalizeSharedPack(pack) { return { ...pack, rarities: pack.rarities || [], slots: (pack.slots || []).map(slot => Array.isArray(slot) ? slot : [slot]), cards: pack.cards || [] }; }
+function readSharedSnapshot() { const token = new URLSearchParams(location.hash.slice(1)).get('share'); if (!token) return; try { const json = decodeURIComponent(escape(atob(token))); const shared = JSON.parse(json); if (!Array.isArray(shared.packs)) throw Error(); const incoming = shared.packs.map(normalizeSharedPack); const merged = new Map(data.packs.map(pack => [pack.id, pack])); incoming.forEach(pack => { const existing = merged.get(pack.id); merged.set(pack.id, existing ? { ...existing, ...pack, openedCount: existing.openedCount || 0, favorite: existing.favorite || false } : pack); }); data.packs = [...merged.values()]; save(); history.replaceState(null, '', location.pathname + location.search); } catch { console.warn('CPOS pack share link could not be decoded.'); } }
+readSharedSnapshot();
 function load() { try { const saved = JSON.parse(localStorage.getItem(STORAGE_KEY)); if (!saved?.packs) return { packs: [], obtained: {} }; if (saved.packs.length === 1 && saved.packs[0].name === 'Astral Horizons') return { packs: [], obtained: {} }; saved.obtained = saved.obtained || {}; saved.packs = saved.packs.map(p => ({ ...p, rarities: p.rarities || [], slots: (p.slots || []).map(slot => Array.isArray(slot) ? slot : [slot]), cards: p.cards || [] })); return saved; } catch { return { packs: [], obtained: {} }; } }
 function save() { localStorage.setItem(STORAGE_KEY, JSON.stringify(data)); }
 function escapeHtml(value='') { return String(value).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[c])); }
@@ -245,3 +248,26 @@ home = function() { return finalSpeedrunHome() + (view.speedrunMenu ? speedrunMo
 const finalCardAction = action;
 action = function(type, meta={}) { if (type === 'add-card') { view.editor.cards.push({id:uid(),name:'',image:'',rarity:meta.rarity}); render(); return; } finalCardAction(type, meta); };
 setTimeout(() => { opening = function() { return splitPackOpening(); }; render(); }, 30);
+
+function qrPackSnapshot() {
+  return { format: 'cpos-pack-share-v1', packs: data.packs.map(pack => ({ id:pack.id, name:pack.name, cover:pack.cover || '', back:pack.back || '', description:pack.description || '', structureName:pack.structureName || '', rarities:pack.rarities || [], slots:pack.slots || [], cards:pack.cards || [] })) };
+}
+function qrShareLink() {
+  const encoded = btoa(unescape(encodeURIComponent(JSON.stringify(qrPackSnapshot()))));
+  return `${location.origin}${location.pathname}#share=${encodeURIComponent(encoded)}`;
+}
+function qrModal() {
+  const link = qrShareLink();
+  const qr = `https://api.qrserver.com/v1/create-qr-code/?size=300x300&margin=12&data=${encodeURIComponent(link)}`;
+  const tooLarge = link.length > 7000;
+  return `<div class="choice-backdrop qr-backdrop" data-action="close-qr"><section class="choice-modal qr-modal"><button class="manual-close" data-action="close-qr">×</button><span class="eyebrow">Pack share</span><h2>Scan to add packs</h2><img class="qr-code" src="${qr}" alt="QR code containing CPOS pack content" />${tooLarge ? '<p class="qr-warning">This collection is large and may not fit reliably in a QR code. Export pack content for a guaranteed transfer.</p>' : '<p class="qr-note">Only pack content is shared. Progress stays local to each device.</p>'}<div class="choice-actions"><button class="button button-quiet" data-action="close-qr">Close</button></div></section></div>`;
+}
+const qrActionBase = action;
+action = function(type, meta={}) { if (type === 'share-qr') { view.qrMenu = true; render(); return; } if (type === 'close-qr') { view.qrMenu = false; render(); return; } qrActionBase(type, meta); };
+const qrHomeBase = home;
+home = function() {
+  let html = qrHomeBase();
+  if (!html.includes('data-action="share-qr"')) html = html.replace('<button class="button button-quiet" data-action="speedrun-menu">', '<button class="button button-quiet" data-action="share-qr"><span class="action-icon">▦</span> QR</button><button class="button button-quiet" data-action="speedrun-menu">');
+  return html + (view.qrMenu ? qrModal() : '');
+};
+render();

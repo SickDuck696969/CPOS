@@ -533,3 +533,40 @@ body::before { background:radial-gradient(circle at 8% 0%,rgba(74,157,143,.15),t
 .leaderboard-section:first-of-type { margin-top:16px; }
 .leaderboard-section h3 { margin:0 0 8px; color:var(--mint); font:11px "DM Mono",monospace; text-transform:uppercase; letter-spacing:.08em; }
 .leaderboard-section > div { display:grid; grid-template-columns:32px minmax(0,1fr) auto; gap:10px; padding:10px 0; border-bottom:1px solid var(--line); }
+
+/* Mobile dashboard: three stats on row one, four actions on row two. */
+@media (max-width:760px) {
+  .dashboard-strip {
+    display:grid!important; grid-template-columns:repeat(12,minmax(0,1fr))!important;
+    gap:8px!important; align-items:stretch!important;
+  }
+  .dashboard-strip > div { grid-column:span 4!important; min-width:0!important; padding:0!important; border:0!important; text-align:center; }
+  .dashboard-strip > .button,
+  .dashboard-strip > .manual-trigger {
+    grid-column:span 3!important; width:100%!important; min-width:0!important; margin:0!important;
+    padding:10px 4px!important; font-size:10px!important; white-space:nowrap!important;
+  }
+  .dashboard-strip > .button .action-icon { margin-right:2px; }
+
+  .opening:has(.result-page) .result-gallery,
+  .result-gallery {
+    display:grid!important; grid-template-columns:repeat(3,minmax(0,1fr))!important;
+    width:100%!important; max-width:none!important; gap:18px 8px!important;
+    padding-left:0!important; padding-right:0!important;
+  }
+  .opening:has(.result-page) .result-card,
+  .result-card { width:100%!important; max-width:none!important; }
+
+  .collection-browser .rarity-cards,
+  .collection-grid .rarity-cards { grid-template-columns:repeat(3,minmax(0,1fr))!important; gap:14px 8px!important; }
+  .collection-browser .rarity-row .collection-card figcaption strong { font-size:9px!important; }
+
+  .choice-backdrop { padding:12px!important; align-items:start!important; overflow:auto!important; }
+  .choice-modal { width:100%!important; max-height:calc(100vh - 24px)!important; overflow:auto!important; padding:22px 16px!important; border-radius:16px!important; }
+  .choice-modal h2 { font-size:28px!important; }
+  .choice-modal label { margin:18px 0!important; padding:12px!important; }
+  .choice-modal select { width:100%!important; min-height:44px!important; font-size:13px!important; }
+  .choice-actions { display:grid!important; grid-template-columns:1fr!important; gap:8px!important; }
+  .choice-actions .button { width:100%!important; min-height:44px!important; }
+  .leaderboard-list > div { grid-template-columns:28px minmax(0,1fr) auto!important; }
+}

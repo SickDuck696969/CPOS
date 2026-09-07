@@ -350,6 +350,14 @@ body::before { background:radial-gradient(circle at 8% 0%,rgba(74,157,143,.15),t
 .opening-label { top:calc(100% + 10px)!important; gap:4px!important; line-height:1.1; }.stage.stack-stage { margin-bottom:58px!important; }.export-choice-modal { width:min(410px,100%); padding:26px; }.export-choice-modal p { margin:0 0 20px; }
 @media (max-width:760px) { .opening-label { top:calc(100% + 8px)!important; }.stage.stack-stage { margin-bottom:50px!important; }.export-choice-modal { padding:24px 18px; } }
 
+/* Collection card list: maximum ten cards across on wide screens. */
+.collection-browser .rarity-cards { grid-template-columns:repeat(10,minmax(0,1fr))!important; gap:18px 12px!important; }
+.collection-browser .rarity-row .collection-card { width:auto!important; min-width:0; }
+.collection-browser .rarity-row .collection-card img, .collection-browser .rarity-row .collection-card .mini-fallback { width:100%!important; height:auto!important; aspect-ratio:2 / 3; }
+@media (max-width:1200px) { .collection-browser .rarity-cards { grid-template-columns:repeat(8,minmax(0,1fr))!important; } }
+@media (max-width:760px) { .collection-browser .rarity-cards { grid-template-columns:repeat(4,minmax(0,1fr))!important; gap:14px 8px!important; } }
+@media (max-width:430px) { .collection-browser .rarity-cards { grid-template-columns:repeat(2,minmax(0,1fr))!important; } }
+
 /* Real pack split: the cover itself is clipped into a lower body and hinged top. */
 .opening .pack-waiting .pack-art-body { display:block!important; position:absolute; inset:0; overflow:hidden; opacity:1; }
 .opening .pack-waiting .pack-art-top { display:none!important; position:absolute; inset:0; overflow:hidden; z-index:3; pointer-events:none; }

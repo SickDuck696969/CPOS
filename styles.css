@@ -187,6 +187,39 @@ img { max-width:100%; }
 .pack-waiting.pack-ripping::before, .pack-waiting.pack-ripping::after { display:none!important; content:none!important; animation:none!important; }
 .pack-waiting.pack-ripping { animation:pack-body-jolt .72s cubic-bezier(.2,.8,.25,1) both!important; }
 
+/* Reveal metadata sits above the card instead of competing with the artwork. */
+.opening-label { display:grid!important; top:-76px; z-index:8; pointer-events:none; }
+.opening-label strong { max-width:min(320px,70vw); white-space:normal; line-height:1.12; }
+.opening-label span { order:2; }
+.opening-label strong { order:1; }
+
+/* The wrapper disappears cleanly as the clipped pack pieces separate. */
+.pack-waiting.pack-ripping .pack-art-body { animation:pack-cover-disappear .72s ease-out both; }
+.pack-waiting.pack-ripping::before, .pack-waiting.pack-ripping::after { background:none!important; box-shadow:none!important; }
+@keyframes pack-cover-disappear { 0%,35% { opacity:1; transform:scale(1); } 100% { opacity:.08; transform:scale(.97); } }
+
+/* Hover previews use a centered viewer instead of changing the page layout. */
+.collection-card:hover, .review-card:hover, .card-entry:hover .thumb { transform:none!important; box-shadow:none!important; }
+.opening-shell:has(.review-panel) .review-card:hover { transform:none!important; }
+.card-preview { position:fixed; inset:0; z-index:80; display:grid; place-items:center; padding:24px; background:rgba(3,8,16,.72); opacity:0; visibility:hidden; pointer-events:none; transition:opacity .18s ease,visibility .18s ease; }
+.card-preview.visible { opacity:1; visibility:visible; }
+.card-preview img { width:min(390px,72vw); height:min(570px,82vh); object-fit:contain; border:0!important; outline:0!important; background:transparent!important; box-shadow:0 24px 70px rgba(0,0,0,.55)!important; }
+
+/* Keep the result composition centered while letting the complete row breathe. */
+.opening-shell:has(.review-panel), .opening-shell:has(.review-panel) .review-panel { text-align:center; margin-left:auto; margin-right:auto; }
+.opening-shell:has(.review-panel) .review-heading { justify-content:center; align-items:center; text-align:center; }
+.opening-shell:has(.review-panel) .review-cards { justify-items:center; align-items:start; }
+
+/* No glow or painted overlay remains on the ripping pack. */
+.pack-waiting.pack-ripping, .pack-waiting.pack-ripping .pack-art-body, .pack-waiting.pack-ripping .pack-art-top { box-shadow:none!important; filter:none!important; }
+.pack-waiting.pack-ripping::before, .pack-waiting.pack-ripping::after { display:none!important; content:none!important; }
+
+.manual { max-height:min(820px,calc(100vh - 40px)); overflow:auto; }
+.manual-sections { display:grid; gap:12px; margin-top:20px; text-align:left; }
+.manual-sections section { display:grid; gap:4px; padding:10px 0; border-top:1px solid var(--line); }
+.manual-sections strong { color:var(--mint); font-size:12px; }
+.manual-sections span { color:var(--muted); font-size:11px; line-height:1.5; }
+
 /* The rip is made from two real copies of the pack art, not a painted overlay. */
 .pack-waiting { position:relative; overflow:visible!important; display:block!important; }
 .pack-art-body, .pack-art-top { position:absolute; inset:0; width:100%; height:100%; overflow:hidden; }

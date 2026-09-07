@@ -1,6 +1,6 @@
 const STORAGE_KEY = 'cpos-data-v1';
 const uid = () => Math.random().toString(36).slice(2, 10);
-let data = load(); data.series = Array.isArray(data.series) ? data.series : []; let view = { page: 'home', query: '', rarity: 'all', seriesFilter: 'all', packId: null, editor: null, opening: null, revealIndex: -1 };
+let data = load(); data.series = Array.isArray(data.series) ? data.series : []; let view = { page: 'home', query: '', rarity: 'all', seriesFilter: 'all', seriesFilters: [], packId: null, editor: null, opening: null, revealIndex: -1 };
 function load() { try { const saved = JSON.parse(localStorage.getItem(STORAGE_KEY)); if (!saved?.packs) return { packs: [], obtained: {} }; if (saved.packs.length === 1 && saved.packs[0].name === 'Astral Horizons') return { packs: [], obtained: {} }; saved.obtained = saved.obtained || {}; saved.packs = saved.packs.map(p => ({ ...p, rarities: p.rarities || [], slots: (p.slots || []).map(slot => Array.isArray(slot) ? slot : [slot]), cards: p.cards || [] })); return saved; } catch { return { packs: [], obtained: {} }; } }
 function save() { localStorage.setItem(STORAGE_KEY, JSON.stringify(data)); }
 function escapeHtml(value='') { return String(value).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[c])); }
@@ -125,7 +125,8 @@ document.addEventListener('click', e => { if (view.page === 'opening' && view.re
 document.addEventListener('contextmenu', e => { if (view.page === 'opening' && view.revealIndex >= (view.opening || []).length && e.target.closest('.result-page') && !e.target.closest('button, .result-card')) { e.preventDefault(); e.stopImmediatePropagation(); action('open', { id: view.packId }); } }, true);
 
 function cleanHome() {
-  const matching = data.packs.filter(p => p.name.toLowerCase().includes((view.query || '').toLowerCase()) && ((view.rarity !== 'favorites' && view.sort !== 'favorites') || p.favorite) && ((view.seriesFilter || 'all') === 'all' || p.seriesId === view.seriesFilter));
+  const selectedSeries = Array.isArray(view.seriesFilters) ? view.seriesFilters : (view.seriesFilter && view.seriesFilter !== 'all' ? [view.seriesFilter] : []);
+  const matching = data.packs.filter(p => p.name.toLowerCase().includes((view.query || '').toLowerCase()) && ((view.rarity !== 'favorites' && view.sort !== 'favorites') || p.favorite) && (!selectedSeries.length || selectedSeries.includes(p.seriesId)));
   const packs = [...matching].sort((a, b) => view.sort === 'name' ? a.name.localeCompare(b.name) : view.sort === 'cards' ? b.cards.length - a.cards.length : Number(b.favorite) - Number(a.favorite));
   const total = data.packs.reduce((sum, p) => sum + p.cards.length, 0), owned = data.packs.reduce((sum, p) => sum + p.cards.filter(c => data.obtained[c.id]).length, 0);
   return `<section class="dashboard-hero"><h1>Collection</h1></section><section class="dashboard-strip"><div><small>Packs</small><strong>${data.packs.length}</strong></div><div><small>Collected</small><strong>${owned}<i> / ${total}</i></strong></div><div><small>Completion</small><strong>${total ? Math.round(owned / total * 100) : 0}%</strong></div><button class="button button-quiet" data-action="speedrun-menu"><span class="action-icon">▶</span> Play</button><button class="button button-quiet" data-action="leaderboard-menu"><span class="action-icon">▤</span> Leaderboard</button><button class="button button-primary" data-action="random-open"><span class="action-icon">⤨</span> Random pack</button><button class="manual-trigger" title="Open manual" aria-label="Open manual" data-action="manual">?</button></section><div class="dashboard-tools"><input class="search" data-model="query" value="${escapeHtml(view.query || '')}" placeholder="Search packs" /><select class="select" data-model="rarity"><option value="all">All packs</option><option value="favorites" ${view.rarity === 'favorites' ? 'selected' : ''}>Favorites</option></select><select class="select" data-model="sort"><option value="featured" ${view.sort !== 'name' && view.sort !== 'cards' ? 'selected' : ''}>Featured</option><option value="name" ${view.sort === 'name' ? 'selected' : ''}>Name</option><option value="cards" ${view.sort === 'cards' ? 'selected' : ''}>Most cards</option></select></div><section class="pack-grid clean-pack-grid">${packs.length ? packs.map(packCard).join('') : '<div class="empty"><strong>No packs</strong><span>Create a pack to begin.</span></div>'}</section>`;
@@ -260,7 +261,16 @@ document.addEventListener('change', e => { if (e.target.dataset.edit && view.edi
 
 const seriesActionBase = action;
 action = function(type, meta={}) {
-  if (type === 'series-filter') { view.rarity = 'all'; view.seriesFilter = view.seriesFilter === meta.id ? 'all' : (meta.id || 'all'); render(); return; }
+  if (type === 'series-filter') {
+    view.rarity = 'all';
+    const selected = Array.isArray(view.seriesFilters) ? [...view.seriesFilters] : (view.seriesFilter && view.seriesFilter !== 'all' ? [view.seriesFilter] : []);
+    const index = selected.indexOf(meta.id);
+    if (index >= 0) selected.splice(index, 1); else if (meta.id) selected.push(meta.id);
+    view.seriesFilters = selected;
+    view.seriesFilter = selected.length === 1 ? selected[0] : 'all';
+    render();
+    return;
+  }
   if (type === 'save-pack' && view.editor) {
     const name = String(view.editor.seriesName || '').trim();
     const logo = String(view.editor.seriesLogo || '').trim();
@@ -278,7 +288,8 @@ action = function(type, meta={}) {
 const seriesHomeBase = home;
 home = function() {
   let html = seriesHomeBase();
-  const seriesButtons = (data.series || []).map(series => `<button class="series-filter series-logo-filter ${view.seriesFilter === series.id ? 'active' : ''}" data-action="series-filter" data-id="${escapeHtml(series.id)}" title="${escapeHtml(series.name)}">${series.logo ? `<img src="${escapeHtml(series.logo)}" alt="${escapeHtml(series.name)}" />` : `<span>${escapeHtml(series.name.slice(0, 2).toUpperCase())}</span>`}</button>`).join('');
+  const selectedSeries = Array.isArray(view.seriesFilters) ? view.seriesFilters : (view.seriesFilter && view.seriesFilter !== 'all' ? [view.seriesFilter] : []);
+  const seriesButtons = (data.series || []).map(series => `<button class="series-filter series-logo-filter ${selectedSeries.includes(series.id) ? 'active' : ''}" data-action="series-filter" data-id="${escapeHtml(series.id)}" title="${escapeHtml(series.name)}" aria-pressed="${selectedSeries.includes(series.id)}">${series.logo ? `<img src="${escapeHtml(series.logo)}" alt="${escapeHtml(series.name)}" />` : `<span>${escapeHtml(series.name.slice(0, 2).toUpperCase())}</span>`}</button>`).join('');
   const tools = `<div class="dashboard-tools"><input class="search" data-model="query" value="${escapeHtml(view.query || '')}" placeholder="Search packs" /><select class="select dashboard-sort" data-model="sort"><option value="featured" ${view.sort !== 'name' && view.sort !== 'cards' && view.sort !== 'favorites' ? 'selected' : ''}>Featured</option><option value="favorites" ${view.sort === 'favorites' ? 'selected' : ''}>Favorites</option><option value="name" ${view.sort === 'name' ? 'selected' : ''}>Name</option><option value="cards" ${view.sort === 'cards' ? 'selected' : ''}>Most cards</option></select><div class="series-filter-bar" aria-label="Filter by series">${seriesButtons}</div></div>`;
   return html.replace(/<div class="dashboard-tools">[\s\S]*?<\/div><section class="pack-grid clean-pack-grid">/, `${tools}<section class="pack-grid clean-pack-grid">`);
 };

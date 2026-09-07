@@ -543,10 +543,12 @@ body::before { background:radial-gradient(circle at 8% 0%,rgba(74,157,143,.15),t
   .dashboard-strip > div { grid-column:span 4!important; min-width:0!important; padding:0!important; border:0!important; text-align:center; }
   .dashboard-strip > .button,
   .dashboard-strip > .manual-trigger {
-    grid-column:span 3!important; width:100%!important; min-width:0!important; margin:0!important;
-    padding:10px 4px!important; font-size:10px!important; white-space:nowrap!important;
+    grid-column:span 3!important; justify-self:center!important; width:42px!important; height:42px!important;
+    min-width:42px!important; min-height:42px!important; margin:0!important; padding:0!important;
+    font-size:0!important; line-height:1!important; white-space:nowrap!important; display:grid!important; place-items:center!important;
   }
-  .dashboard-strip > .button .action-icon { margin-right:2px; }
+  .dashboard-strip > .button .action-icon { margin:0!important; font-size:18px!important; }
+  .dashboard-strip > .manual-trigger { border-radius:50%!important; aspect-ratio:1!important; font-size:18px!important; }
 
   .opening:has(.result-page) .result-gallery,
   .result-gallery {

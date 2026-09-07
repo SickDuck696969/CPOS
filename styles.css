@@ -302,6 +302,14 @@ body::before { background:radial-gradient(circle at 8% 0%,rgba(74,157,143,.15),t
 .result-card-name { display:none!important; }
 @media (max-width:760px) { .opening-label { top:-22px!important; } }
 
+/* Collection rarity headings use a distinct accent per row. */
+.collection-browser .rarity-row:nth-child(6n+1) .rarity-row-head h2, .collection-browser .rarity-row:nth-child(6n+1) figcaption span { color:#9bb8ff; }
+.collection-browser .rarity-row:nth-child(6n+2) .rarity-row-head h2, .collection-browser .rarity-row:nth-child(6n+2) figcaption span { color:#8ce7c7; }
+.collection-browser .rarity-row:nth-child(6n+3) .rarity-row-head h2, .collection-browser .rarity-row:nth-child(6n+3) figcaption span { color:#ffd27a; }
+.collection-browser .rarity-row:nth-child(6n+4) .rarity-row-head h2, .collection-browser .rarity-row:nth-child(6n+4) figcaption span { color:#ff9dba; }
+.collection-browser .rarity-row:nth-child(6n+5) .rarity-row-head h2, .collection-browser .rarity-row:nth-child(6n+5) figcaption span { color:#d7a7ff; }
+.collection-browser .rarity-row:nth-child(6n) .rarity-row-head h2, .collection-browser .rarity-row:nth-child(6n) figcaption span { color:#ff8e74; }
+
 /* Dedicated pack result screen. */
 .result-page { min-height:calc(100vh - 70px); width:100%; display:grid; place-items:center; text-align:center; padding:28px 18px 40px; }
 .result-space { width:100%; min-height:calc(100vh - 150px); display:flex; flex-direction:column; justify-content:center; align-items:center; cursor:default; }

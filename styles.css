@@ -259,6 +259,10 @@ body::before { background:radial-gradient(circle at 8% 0%,rgba(74,157,143,.15),t
 @media (max-width:900px) { .result-gallery { gap:clamp(3px,1vw,10px); } }
 @media (max-width:560px) { .app-shell { padding-left:10px; padding-right:10px; }.topbar { min-height:64px; }.brand small { display:none; }.topbar-actions { gap:3px; }.topbar-actions .button { padding:10px 9px; font-size:10px; }.result-space { padding:0 5px; }.result-gallery { width:100%; gap:2px; }.result-card small { font-size:6px; }.result-header h1 { font-size:32px; }.result-actions .button { flex:1; }.dashboard-hero h1 { font-size:44px; }.dashboard-strip { border-radius:11px; padding:13px; }.clean-pack-grid .card-actions .icon-button { font-size:13px; padding:8px 1px; } }
 
+/* Legacy opening hooks must not paint or animate anything over the cover. */
+.opening .pack-ripping:not(.pack-waiting), .opening .pack-ripping::before, .opening .pack-ripping::after, .opening .pack-peel, .opening .pack-art-top, .opening .pack-art-body, .opening .card-stack-back { animation:none!important; display:none!important; content:none!important; opacity:0!important; box-shadow:none!important; background:none!important; }
+.opening .opening-head { display:none!important; }
+
 /* Dedicated pack result screen. */
 .result-page { min-height:calc(100vh - 70px); width:100%; display:grid; place-items:center; text-align:center; padding:28px 18px 40px; }
 .result-space { width:100%; min-height:calc(100vh - 150px); display:flex; flex-direction:column; justify-content:center; align-items:center; cursor:default; }

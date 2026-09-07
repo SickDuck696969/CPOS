@@ -263,6 +263,16 @@ body::before { background:radial-gradient(circle at 8% 0%,rgba(74,157,143,.15),t
 .opening .pack-ripping:not(.pack-waiting), .opening .pack-ripping::before, .opening .pack-ripping::after, .opening .pack-peel, .opening .pack-art-top, .opening .pack-art-body, .opening .card-stack-back { animation:none!important; display:none!important; content:none!important; opacity:0!important; box-shadow:none!important; background:none!important; }
 .opening .opening-head { display:none!important; }
 
+/* Revealed-card metadata should sit close above the artwork. */
+.opening-label { top:-56px!important; }
+@media (max-width:760px) { .opening-label { top:-48px!important; } }
+
+/* Result mode escapes the opener shell and centers the complete card row. */
+.opening:has(.result-page) > .opening-shell { width:100vw!important; max-width:none!important; }
+.opening:has(.result-page) .result-page { width:100%; max-width:none; }
+.opening:has(.result-page) .result-gallery { width:100%; max-width:none; grid-template-columns:repeat(var(--result-count),minmax(0,clamp(42px,7.2vw,116px))); justify-content:center; justify-items:center; margin-left:auto; margin-right:auto; }
+@media (max-width:760px) { .opening:has(.result-page) .result-gallery { grid-template-columns:repeat(var(--result-count),minmax(0,clamp(25px,7.4vw,72px))); } }
+
 /* Dedicated pack result screen. */
 .result-page { min-height:calc(100vh - 70px); width:100%; display:grid; place-items:center; text-align:center; padding:28px 18px 40px; }
 .result-space { width:100%; min-height:calc(100vh - 150px); display:flex; flex-direction:column; justify-content:center; align-items:center; cursor:default; }

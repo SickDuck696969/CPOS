@@ -47,6 +47,49 @@ setInterval(() => { if (view.speedrun && view.page === 'opening' && view.revealI
 setInterval(() => { if (view.speedrun?.mode === 'rush' && !view.speedrun.finished) { const el=document.querySelector('[data-speedrun-time]'); if (el) { const remaining=Math.max(0, view.speedrun.limit - (performance.now() - view.speedrun.started)); el.textContent=`${Math.floor(remaining/60000).toString().padStart(2,'0')}:${Math.floor(remaining/1000%60).toString().padStart(2,'0')}.${Math.floor(remaining%1000/10).toString().padStart(2,'0')}`; } } }, 50);
 setTimeout(() => { opening = function() { return splitPackOpening(); }; render(); }, 30);
 
+// Play mode uses the same visible cover rip as normal openings.
+const baseSpeedrunReveal = speedrunReveal;
+function cleanSpeedrunCards() {
+  const pack = data.packs.find(item => item.id === view.packId);
+  if (!pack || !view.speedrun) return;
+  const valid = new Set(pack.cards.map(card => card.id));
+  Object.keys(view.speedrun.cards || {}).forEach(id => { if (!valid.has(id)) delete view.speedrun.cards[id]; });
+}
+speedrunReveal = function() {
+  if (view.revealIndex < 0 && !view.packRipping) {
+    view.packRipping = true;
+    render();
+    view.ripTimer = setTimeout(() => {
+      view.packRipping = false;
+      baseSpeedrunReveal();
+      cleanSpeedrunCards();
+    }, 700);
+    return;
+  }
+  baseSpeedrunReveal();
+  cleanSpeedrunCards();
+};
+
+function speedrunLeaderboardRows(mode) {
+  const scores = loadSpeedruns();
+  return data.packs.flatMap(pack => (scores[pack.id] || [])
+    .filter(score => mode === 'rush' ? score.mode === 'rush' : score.mode !== 'rush')
+    .map(score => ({ pack, score })))
+    .sort((a, b) => mode === 'rush'
+      ? (b.score.score || 0) - (a.score.score || 0) || a.score.time - b.score.time
+      : a.score.time - b.score.time)
+    .slice(0, 10);
+}
+
+leaderboardModal = function() {
+  const format = ms => `${Math.floor(ms / 60000).toString().padStart(2, '0')}:${Math.floor(ms / 1000 % 60).toString().padStart(2, '0')}.${Math.floor(ms % 1000 / 10).toString().padStart(2, '0')}`;
+  const section = (title, mode) => {
+    const rows = speedrunLeaderboardRows(mode);
+    return `<section class="leaderboard-section"><h3>${title}</h3>${rows.length ? rows.map((row, index) => `<div><b>${index + 1}</b><strong>${escapeHtml(row.pack.name)}</strong><span>${mode === 'rush' ? `${row.score.score || 0} cards` : format(row.score.time)}</span></div>`).join('') : '<p class="leaderboard-empty">No runs recorded yet.</p>'}</section>`;
+  };
+  return `<div class="choice-backdrop" data-action="close-leaderboard-menu"><section class="choice-modal leaderboard-modal"><button class="manual-close" data-action="close-leaderboard-menu">×</button><span class="eyebrow">Personal records</span><h2>Leaderboard</h2>${section('100% Sprint · fastest time', 'complete')}${section('Rush · most unique cards', 'rush')}</section></div>`;
+};
+
 // Keep slot rarity controls clickable after the legacy editor declaration.
 const nativeSlotEditor = editor;
 editor = function() {
@@ -105,7 +148,9 @@ function splitPackOpening() {
   const packImage = p.cover ? `<img src="${escapeHtml(p.cover)}" alt="${escapeHtml(p.name)}" />` : fallback(p.name);
   const waiting = `<div class="pack-waiting${view.packRipping ? ' pack-ripping' : ''}"><div class="pack-art-body">${packImage}</div><div class="pack-art-top">${packImage}</div></div>`;
   const status = '';
-  const runHud = view.speedrun ? `<div class="speedrun-hud"><span>SPEEDRUN</span><strong data-speedrun-time>00:00.00</strong><small>${new Set(Object.keys(view.speedrun.cards || {})).size} / ${p.cards.length} cards</small></div>` : '';
+  const runMs = view.speedrun ? (view.speedrun.mode === 'rush' ? Math.max(0, view.speedrun.limit - (performance.now() - view.speedrun.started)) : performance.now() - view.speedrun.started) : 0;
+  const runTime = `${Math.floor(runMs / 60000).toString().padStart(2, '0')}:${Math.floor(runMs / 1000 % 60).toString().padStart(2, '0')}.${Math.floor(runMs % 1000 / 10).toString().padStart(2, '0')}`;
+  const runHud = view.speedrun ? `<div class="speedrun-hud"><span>SPEEDRUN</span><strong data-speedrun-time>${runTime}</strong><small>${Object.keys(view.speedrun.cards || {}).filter(id => p.cards.some(card => card.id === id)).length} / ${p.cards.length} cards</small></div>` : '';
   return `<section class="opening"><div class="opening-shell">${complete ? (view.speedrun ? speedrunResult() : resultPage()) : `${runHud}<div class="stage stack-stage rarity-stage-${tier}"><div class="card-stack">${current ? `${label}<div class="opening-card reveal rarity-card-tier-${tier}">${current.image ? `<img src="${escapeHtml(current.image)}" alt="" />` : fallback('')}${current.isNew ? '<span class="new-badge">NEW</span>' : ''}</div>` : waiting}</div></div>`}<div class="opening-controls"><button class="button button-quiet" data-action="${view.speedrun ? 'exit-speedrun' : 'home'}">${view.speedrun ? 'Exit run' : '← Back to packs'}</button>${complete ? `<button class="button button-primary" data-action="${view.speedrun ? 'speedrun-restart' : 'open'}" data-id="${p.id}">${view.speedrun ? 'Run again' : 'Open one more'}</button>` : `<button class="button button-primary" data-action="reveal">${view.revealIndex < 0 ? 'Start' : 'Reveal next'} →</button>${view.speedrun ? '' : '<button class="button button-quiet" data-action="skip-opening">Skip to review</button>'}`}</div><div class="progress">${view.speedrun ? 'RUN IN PROGRESS' : `${Math.min(view.revealIndex + 1, cards.length)} / ${cards.length} REVEALED`}</div></div></section>`;
 }
 opening = function() { return splitPackOpening(); };

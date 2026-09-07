@@ -172,6 +172,21 @@ img { max-width:100%; }
 .opening-shell:has(.review-panel) .review-heading { border-bottom:1px solid rgba(114,226,192,.22); padding-bottom:16px; }
 @media (max-width:760px) { .opening-shell:has(.review-panel) .review-panel { width:calc(100vw - 16px); }.opening-shell:has(.review-panel) .review-cards { grid-template-columns:repeat(var(--review-count),minmax(122px,1fr))!important; min-width:calc(var(--review-count) * 122px); padding-left:4px; padding-right:4px; }.opening-shell:has(.review-panel) .review-card:hover { transform:translateY(-7px) scale(1.08); } }
 
+/* Keep reveal copy out of the artwork so it can never overlap the card. */
+.opening-label, .opening .card-name { display:none!important; }
+
+/* Every result card stays visible in the same row, including narrow screens. */
+.opening-shell:has(.review-panel) .review-cards { grid-template-columns:repeat(var(--review-count),minmax(0,1fr))!important; min-width:0!important; overflow:visible!important; }
+.opening-shell:has(.review-panel) .review-card { overflow:visible; }
+
+/* High rarity uses the same clean card presentation as every other rarity. */
+.opening .stage::before, .opening .stage::after, .opening-card::before, .opening-card::after { display:none!important; content:none!important; animation:none!important; }
+.opening .rarity-card-tier-1, .opening .rarity-card-tier-2, .opening .rarity-card-tier-3, .opening .rarity-card-tier-4 { animation:card-flip-in .72s cubic-bezier(.2,.8,.25,1) both!important; filter:none!important; border:0!important; box-shadow:none!important; }
+
+/* The rip is only the two clipped artwork pieces; remove all fake light overlays. */
+.pack-waiting.pack-ripping::before, .pack-waiting.pack-ripping::after { display:none!important; content:none!important; animation:none!important; }
+.pack-waiting.pack-ripping { animation:pack-body-jolt .72s cubic-bezier(.2,.8,.25,1) both!important; }
+
 /* The rip is made from two real copies of the pack art, not a painted overlay. */
 .pack-waiting { position:relative; overflow:visible!important; display:block!important; }
 .pack-art-body, .pack-art-top { position:absolute; inset:0; width:100%; height:100%; overflow:hidden; }

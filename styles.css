@@ -580,7 +580,7 @@ body::before { background:radial-gradient(circle at 8% 0%,rgba(74,157,143,.15),t
   padding:10px!important;
   color:rgba(235,255,248,.78)!important;
   font-size:clamp(16px,2.4vw,24px)!important;
-  font-weight:800!important;
+  font-weight:900!important;
   letter-spacing:.2em!important;
   text-shadow:0 0 4px rgba(3,16,20,.9), 0 0 13px rgba(140,242,206,.95)!important;
   background:
@@ -628,7 +628,7 @@ body::before { background:radial-gradient(circle at 8% 0%,rgba(74,157,143,.15),t
   font-weight:800!important;
   letter-spacing:.2em!important;
   line-height:1!important;
-  -webkit-text-stroke:1px #071018;
+  -webkit-text-stroke:1.5px #071018;
   text-shadow:0 0 2px #071018, 0 0 9px rgba(255,210,122,.85)!important;
   transform:rotate(-8deg);
   animation:none!important;
@@ -671,10 +671,10 @@ body::before { background:radial-gradient(circle at 8% 0%,rgba(74,157,143,.15),t
   color:#ffd27a!important;
   background:transparent!important;
   font-size:clamp(14px,2vw,20px)!important;
-  font-weight:800!important;
+  font-weight:900!important;
   letter-spacing:.16em!important;
   line-height:1!important;
-  -webkit-text-stroke:1px #071018;
+  -webkit-text-stroke:1.5px #071018;
   text-shadow:0 0 2px #071018, 0 0 9px rgba(255,210,122,.9)!important;
   transform:rotate(-8deg);
   box-shadow:none!important;

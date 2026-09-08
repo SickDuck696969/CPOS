@@ -650,16 +650,40 @@ body::before { background:radial-gradient(circle at 8% 0%,rgba(74,157,143,.15),t
   opacity:1!important;
 }
 .opening .opening-shell .stage .card-stack .opening-card .new-badge::before {
-  left:-15px!important;
+  left:-22px!important;
   color:rgba(255,210,122,.98)!important;
   opacity:1!important;
+  animation:new-marker-pulse 1.25s ease-in-out infinite!important;
 }
 .opening .opening-shell .stage .card-stack .opening-card .new-badge::after {
   display:none!important;
   content:none!important;
   animation:none!important;
 }
-@keyframes new-card-sparkle { 0%,100% { opacity:.48; } 45% { opacity:1; } 72% { opacity:.62; } }
+/* Result cards use the same gold, outlined, pulsing marker. */
+.result-card .new-badge {
+  top:-10px!important;
+  left:-18px!important;
+  padding:4px 6px!important;
+  color:rgba(255,210,122,.98)!important;
+  background:transparent!important;
+  font-size:clamp(14px,2vw,20px)!important;
+  font-weight:800!important;
+  letter-spacing:.16em!important;
+  line-height:1!important;
+  -webkit-text-stroke:1px #071018;
+  text-shadow:0 0 2px #071018, 0 0 9px rgba(255,210,122,.9)!important;
+  transform:rotate(-8deg);
+  box-shadow:none!important;
+  animation:new-marker-pulse 1.25s ease-in-out infinite!important;
+}
+.result-card .new-badge::before,
+.result-card .new-badge::after { display:none!important; content:none!important; }
+@keyframes new-marker-pulse {
+  0%,100% { opacity:.78; transform:rotate(-8deg) scale(.92); text-shadow:0 0 2px #071018, 0 0 5px rgba(255,210,122,.55); }
+  45% { opacity:1; transform:rotate(-8deg) scale(1.12); text-shadow:0 0 2px #071018, 0 0 14px rgba(255,236,169,1), 0 0 24px rgba(255,210,122,.75); }
+  72% { opacity:.9; transform:rotate(-8deg) scale(1); text-shadow:0 0 2px #071018, 0 0 8px rgba(255,210,122,.85); }
+}
 @media (max-width:430px) {
   .collection-browser .rarity-cards, .collection-grid .rarity-cards { grid-template-columns:repeat(2,minmax(0,1fr))!important; }
 }

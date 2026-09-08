@@ -614,6 +614,35 @@ body::before { background:radial-gradient(circle at 8% 0%,rgba(74,157,143,.15),t
   text-shadow:0 0 5px #07151a, 0 0 18px rgba(215,167,255,1)!important;
   animation:new-sparkle 1.1s ease-in-out .48s infinite!important;
 }
+/* Keep the sparkle field full-card, but float only the NEW word over the corner. */
+.opening .opening-shell .stage .card-stack .opening-card .new-badge {
+  font-size:0!important;
+}
+.opening .opening-shell .stage .card-stack .opening-card .new-badge::before {
+  content:"NEW"!important;
+  top:-8px!important;
+  left:-8px!important;
+  color:#ffd27a!important;
+  font-family:"DM Mono",monospace!important;
+  font-size:clamp(16px,2.4vw,24px)!important;
+  font-weight:800!important;
+  letter-spacing:.2em!important;
+  line-height:1!important;
+  -webkit-text-stroke:1px #071018;
+  text-shadow:0 0 2px #071018, 0 0 9px rgba(255,210,122,.85)!important;
+  transform:rotate(-8deg);
+  animation:none!important;
+}
+.opening .opening-shell .stage .card-stack .opening-card .new-badge::after {
+  content:"✦  ✧  ✦"!important;
+  right:12%!important;
+  bottom:16%!important;
+  color:#f4efff!important;
+  font-size:25px!important;
+  letter-spacing:.3em!important;
+  text-shadow:0 0 5px #07151a, 0 0 18px rgba(215,167,255,1)!important;
+  animation:new-sparkle 1.1s ease-in-out .48s infinite!important;
+}
 @keyframes new-card-sparkle { 0%,100% { opacity:.48; } 45% { opacity:1; } 72% { opacity:.62; } }
 @media (max-width:430px) {
   .collection-browser .rarity-cards, .collection-grid .rarity-cards { grid-template-columns:repeat(2,minmax(0,1fr))!important; }

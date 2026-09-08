@@ -643,6 +643,22 @@ body::before { background:radial-gradient(circle at 8% 0%,rgba(74,157,143,.15),t
   text-shadow:0 0 5px #07151a, 0 0 18px rgba(215,167,255,1)!important;
   animation:new-sparkle 1.1s ease-in-out .48s infinite!important;
 }
+/* Final NEW marker treatment: no sparkle layer, only a clear corner label. */
+.opening .opening-shell .stage .card-stack .opening-card .new-badge {
+  background:transparent!important;
+  animation:none!important;
+  opacity:1!important;
+}
+.opening .opening-shell .stage .card-stack .opening-card .new-badge::before {
+  left:-15px!important;
+  color:rgba(255,210,122,.98)!important;
+  opacity:1!important;
+}
+.opening .opening-shell .stage .card-stack .opening-card .new-badge::after {
+  display:none!important;
+  content:none!important;
+  animation:none!important;
+}
 @keyframes new-card-sparkle { 0%,100% { opacity:.48; } 45% { opacity:1; } 72% { opacity:.62; } }
 @media (max-width:430px) {
   .collection-browser .rarity-cards, .collection-grid .rarity-cards { grid-template-columns:repeat(2,minmax(0,1fr))!important; }

@@ -295,3 +295,35 @@ home = function() {
 };
 render();
 setTimeout(() => { packContent = function(pack) { return { id: pack.id, name: pack.name, cover: pack.cover || '', back: pack.back || '', description: pack.description || '', structureName: pack.structureName || '', seriesId: pack.seriesId || '', rarities: pack.rarities || [], slots: pack.slots || [], cards: pack.cards || [] }; }; }, 10);
+
+function packSnapshot(p) {
+  const slots = p.slots || [];
+  const items = (p.rarities || []).map((rarity, index) => {
+    const pool = p.cards.filter(card => card.rarity === rarity.id).length;
+    const eligible = slots.filter(slot => (Array.isArray(slot) ? slot : [slot]).includes(rarity.id)).length;
+    return `<div class="pack-snapshot-item" style="--rarity-color:${rarityTone(p, rarity.id)}"><strong>${escapeHtml(rarity.name)}</strong><small>${pool} card${pool === 1 ? '' : 's'} · ${eligible} slot${eligible === 1 ? '' : 's'}</small></div>`;
+  }).join('');
+  return `<section class="pack-snapshot"><div class="pack-snapshot-head"><strong>Pool snapshot</strong><span>${p.cards.length} cards · ${slots.length} slots</span></div><div class="pack-snapshot-list">${items || '<span class="helper">No rarity pools yet.</span>'}</div></section>`;
+}
+
+const infoWithSnapshot = info;
+info = function() {
+  const p = data.packs.find(pack => pack.id === view.packId);
+  const html = infoWithSnapshot();
+  return p ? html.replace('<div class="collection-toolbar">', `${packSnapshot(p)}<div class="collection-toolbar">`) : html;
+};
+
+const reviewWithInsight = reviewOpening;
+reviewOpening = function() {
+  const p = data.packs.find(pack => pack.id === view.packId);
+  const cards = view.opening || [];
+  const best = cards.reduce((winner, card) => {
+    const score = p ? p.rarities.findIndex(rarity => rarity.id === (card.rarityId || card.rarity)) : -1;
+    const winningScore = winner ? p.rarities.findIndex(rarity => rarity.id === (winner.rarityId || winner.rarity)) : -1;
+    return score > winningScore ? card : winner;
+  }, null);
+  const insight = best ? `<div class="review-insight"><span>Lucky pull</span><strong style="color:${rarityTone(p, best.rarityId || best.rarity)}">${escapeHtml(best.rarityName || 'Highest rarity')}</strong></div>` : '';
+  return reviewWithInsight().replace('</div><div class="review-cards">', `</div>${insight}<div class="review-cards">`);
+};
+opening = reviewOpening;
+render();

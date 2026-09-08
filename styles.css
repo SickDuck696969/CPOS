@@ -707,6 +707,14 @@ body::before { background:radial-gradient(circle at 8% 0%,rgba(74,157,143,.15),t
   animation:none!important; transition:none!important; opacity:1!important; visibility:visible!important;
 }
 
+/* Keep each rarity's editor list compact: ten card rows are visible before scrolling. */
+.rarity-block { min-width:0; }
+.rarity-card-list { min-height:0; max-height:520px; overflow-y:auto; overflow-x:hidden; padding:2px 8px 2px 0; margin-bottom:10px; scrollbar-width:thin; scrollbar-color:var(--mint) transparent; }
+.rarity-card-list .card-entry { min-width:0; }
+@media (max-width:760px) {
+  .rarity-card-list { max-height:960px; }
+}
+
 /* Small, useful pack insights without adding another panel-heavy workflow. */
 .pack-snapshot { display:grid; gap:12px; margin:0 0 22px; padding:16px; border:1px solid var(--line); border-radius:12px; background:rgba(13,27,34,.62); }
 .pack-snapshot-head { display:flex; align-items:baseline; justify-content:space-between; gap:12px; }

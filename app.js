@@ -327,3 +327,47 @@ reviewOpening = function() {
 };
 opening = reviewOpening;
 render();
+// 1. Update export/import payload to save the new Box Cover field
+const originalPackContent = packContent;
+packContent = function(pack) {
+    const content = originalPackContent(pack);
+    content.boxCover = pack.boxCover || '';
+    return content;
+};
+
+// 2. Inject Box Cover input field into the Editor UI
+const editorWithoutBoxCover = editor;
+editor = function() {
+    return editorWithoutBoxCover().replace(
+        '<div class="field"><label>Pack cover image URL</label>',
+        '<div class="field"><label>Box cover image URL</label><input data-edit="boxCover" value="' + escapeHtml(view.editor.boxCover || '') + '" placeholder="https://..." /></div><div class="field"><label>Pack cover image URL</label>'
+    );
+};
+
+// 3. Force square format on the main page grid and load the Box Cover image
+function applyBoxCoverFormat(html, pack) {
+    // Fall back to standard cover if they haven't set a box cover yet
+    const boxUrl = pack.boxCover || pack.cover; 
+    const imgHtml = boxUrl ? `<img src="${escapeHtml(boxUrl)}" alt="${escapeHtml(pack.name)}" onerror="this.style.display='none';this.nextElementSibling.style.display='grid'">` : '';
+    const fallHtml = fallback(pack.name, '', Boolean(boxUrl));
+    
+    // Replace the default pack-cover container with a 1/1 aspect ratio version
+    return html.replace(
+        /<div class="pack-cover"[^>]*>[\s\S]*?<\/div>/,
+        `<div class="pack-cover" style="aspect-ratio: 1/1; height: auto;" data-action="open" data-id="${pack.id}">${imgHtml}${fallHtml}</div>`
+    );
+}
+
+// Apply the grid changes to the standard renderer
+const basePackCard = packCard;
+packCard = function(pack, i) {
+    return applyBoxCoverFormat(basePackCard(pack, i), pack);
+};
+
+// Also apply to the enhanced renderer if it's active in your environment
+if (typeof enhancedPackCard !== 'undefined') {
+    const baseEnhancedPackCard = enhancedPackCard;
+    enhancedPackCard = function(pack, i) {
+        return applyBoxCoverFormat(baseEnhancedPackCard(pack, i), pack);
+    };
+}

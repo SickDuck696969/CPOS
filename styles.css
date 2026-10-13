@@ -826,3 +826,12 @@ body::before { background:radial-gradient(circle at 8% 0%,rgba(74,157,143,.15),t
   .choice-actions .button { width:100%!important; min-height:44px!important; }
   .leaderboard-list > div { grid-template-columns:28px minmax(0,1fr) auto!important; }
 }
+
+/* Final image and scrollbar overrides must come after the toolbar cascade. */
+.opening .opening-card img,
+.opening .opening-card .cover-fallback {
+  border-radius:9px!important;
+  clip-path:inset(0 round 9px);
+}
+.series-filter-bar { scrollbar-width:none!important; -ms-overflow-style:none!important; }
+.series-filter-bar::-webkit-scrollbar { display:none!important; width:0!important; height:0!important; }

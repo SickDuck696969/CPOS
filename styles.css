@@ -727,6 +727,27 @@ body::before { background:radial-gradient(circle at 8% 0%,rgba(74,157,143,.15),t
 .review-insight { display:flex; align-items:center; justify-content:center; gap:8px; margin:14px 0 0; color:var(--muted); font:10px "DM Mono",monospace; text-transform:uppercase; letter-spacing:.08em; }
 .review-insight strong { color:var(--gold); font-weight:700; }
 @media (max-width:560px) { .pack-snapshot { padding:12px; }.pack-snapshot-list { grid-template-columns:repeat(2,minmax(0,1fr)); }.review-insight { flex-wrap:wrap; text-align:center; } }
+
+/* Pack editor cards use a responsive portrait frame instead of a cropped strip. */
+.cards-section .rarity-columns .rarity-block { min-width:0; overflow:visible; }
+.cards-section .rarity-card-list .card-entry { grid-template-columns:clamp(56px,7vw,78px) minmax(0,1fr) minmax(0,1.4fr) auto; align-items:start; }
+.cards-section .rarity-card-list .thumb {
+  display:block;
+  width:clamp(56px,7vw,78px)!important;
+  height:auto!important;
+  aspect-ratio:2 / 3;
+  object-fit:cover!important;
+  border:1px solid rgba(180,207,245,.35)!important;
+  border-radius:9px!important;
+  background:#07101c!important;
+  overflow:hidden;
+}
+.cards-section .rarity-card-list .card-entry input { align-self:center; }
+@media (max-width:760px) {
+  .cards-section .rarity-card-list .card-entry { grid-template-columns:56px minmax(0,1fr) auto; }
+  .cards-section .rarity-card-list .thumb { width:56px!important; }
+  .cards-section .rarity-card-list .card-entry input[data-key="image"] { grid-column:2 / -1; }
+}
 .leaderboard-section { margin-top:22px; padding-top:16px; border-top:1px solid var(--line); }
 .leaderboard-section:first-of-type { margin-top:16px; }
 .leaderboard-section h3 { margin:0 0 8px; color:var(--mint); font:11px "DM Mono",monospace; text-transform:uppercase; letter-spacing:.08em; }

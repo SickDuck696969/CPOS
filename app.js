@@ -344,6 +344,15 @@ editor = function() {
     );
 };
 
+// Show the square box artwork in the editor before the URL field.
+const editorWithBoxField = editor;
+editor = function() {
+    const html = editorWithBoxField();
+    const boxUrl = String(view.editor.boxCover || '').trim();
+    const preview = `<div class="box-cover-preview"><span>Box cover preview</span><div class="box-cover-preview-art">${boxUrl ? `<img src="${escapeHtml(boxUrl)}" alt="Box cover preview" />` : '<span class="box-cover-placeholder">Paste a box cover URL to preview it here.</span>'}</div></div>`;
+    return html.replace('<div class="field"><label>Box cover image URL</label>', `${preview}<div class="field"><label>Box cover image URL</label>`);
+};
+
 // 3. Force square format on the main page grid and load the Box Cover image
 function applyBoxCoverFormat(html, pack) {
     // Fall back to standard cover if they haven't set a box cover yet

@@ -748,6 +748,16 @@ body::before { background:radial-gradient(circle at 8% 0%,rgba(74,157,143,.15),t
   .cards-section .rarity-card-list .thumb { width:56px!important; }
   .cards-section .rarity-card-list .card-entry input[data-key="image"] { grid-column:2 / -1; }
 }
+
+.box-cover-preview { display:grid; gap:8px; margin:0 0 15px; padding:12px; border:1px solid var(--line); border-radius:12px; background:rgba(5,12,24,.3); }
+.box-cover-preview > span { color:var(--muted); font:10px "DM Mono",monospace; letter-spacing:.08em; text-transform:uppercase; }
+.box-cover-preview-art { display:grid; place-items:center; min-width:0; aspect-ratio:1; overflow:hidden; border-radius:10px; background:#07101c; }
+.box-cover-preview-art img { display:block; width:100%; height:100%; object-fit:contain; border:0!important; border-radius:10px; }
+.box-cover-placeholder { padding:18px; color:var(--muted); font-size:11px; line-height:1.4; text-align:center; }
+
+/* Keep the series rail scrollable while removing its visible scrollbar. */
+.series-filter-bar { scrollbar-width:none; -ms-overflow-style:none; }
+.series-filter-bar::-webkit-scrollbar { display:none; width:0; height:0; }
 .leaderboard-section { margin-top:22px; padding-top:16px; border-top:1px solid var(--line); }
 .leaderboard-section:first-of-type { margin-top:16px; }
 .leaderboard-section h3 { margin:0 0 8px; color:var(--mint); font:11px "DM Mono",monospace; text-transform:uppercase; letter-spacing:.08em; }

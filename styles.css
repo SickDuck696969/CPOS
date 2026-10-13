@@ -739,6 +739,7 @@ body::before { background:radial-gradient(circle at 8% 0%,rgba(74,157,143,.15),t
   object-fit:cover!important;
   border:1px solid rgba(180,207,245,.35)!important;
   border-radius:9px!important;
+  clip-path:inset(0 round 9px);
   background:#07101c!important;
   overflow:hidden;
 }

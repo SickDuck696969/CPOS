@@ -615,6 +615,38 @@ body::before { background: radial-gradient(circle at 8% 0%, color-mix(in srgb, v
   .cards-section-v2 .card-entry input[data-key="image"] { grid-column:2/-1; }
 }
 
+/* Structure builder: name the reusable recipe, then add an ordered slot. */
+.structure-panel-v2 {
+  display:grid;
+  grid-template-columns:minmax(0,1fr) auto;
+  gap:0 14px;
+}
+.structure-panel-v2 > h2,
+.structure-panel-v2 > p,
+.structure-panel-v2 > .slot-list,
+.structure-panel-v2 > .helper { grid-column:1/-1; }
+.structure-panel-v2 > .field { margin:0; }
+.structure-panel-v2 > .structure-tools { grid-column:2; grid-row:2; align-self:end; margin:0 0 15px; }
+.structure-panel-v2 > .structure-tools .small-button { min-height:38px; }
+.structure-panel-v2 > .row { grid-column:1/-1; display:grid; grid-template-columns:minmax(0,1fr) auto; align-items:end; gap:10px; padding:14px 0; margin:0 0 12px; border-top:1px solid var(--line); border-bottom:1px solid var(--line); }
+.structure-panel-v2 > .row .field { margin:0; }
+.structure-panel-v2 > .row .inline-add { min-width:112px; }
+.structure-panel-v2 .slot-list { display:grid; gap:7px; max-height:320px; overflow:auto; padding:2px 4px 2px 0; counter-reset:slot; }
+.structure-panel-v2 .slot { display:grid; grid-template-columns:34px minmax(0,1fr) auto; gap:10px; min-height:48px; padding:7px 9px; background:color-mix(in srgb, var(--surface-raised) 65%, transparent); }
+.structure-panel-v2 .slot-index { display:grid; place-items:center; width:28px; height:28px; border-radius:8px; background:var(--bg-soft); color:var(--mint); }
+.structure-panel-v2 .slot select[multiple] { min-height:42px; height:42px; overflow:hidden; padding:0 8px; }
+.structure-panel-v2 .slot > button { padding:0 7px; border-radius:7px; }
+.structure-panel-v2 .helper { margin:0; }
+@media (max-width:600px) {
+  .structure-panel-v2 { display:block; }
+  .structure-panel-v2 > .structure-tools { display:flex; margin:0 0 12px; }
+  .structure-panel-v2 > .structure-tools .small-button { flex:1; }
+  .structure-panel-v2 > .row { grid-template-columns:minmax(0,1fr); }
+  .structure-panel-v2 > .row .inline-add { width:100%; }
+  .structure-panel-v2 .slot { grid-template-columns:30px minmax(0,1fr) auto; gap:6px; padding:6px; }
+  .structure-panel-v2 .slot select[multiple] { font-size:11px; }
+}
+
 /* Pack information workspace: artwork first, metadata second. */
 .editor-info-panel {
   display:grid;

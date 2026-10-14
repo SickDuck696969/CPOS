@@ -778,6 +778,60 @@ body::before { background: radial-gradient(circle at 8% 0%, color-mix(in srgb, v
 @media (max-width:760px) { .pack-waiting.pack-ripping .pack-art-top { animation-name:real-pack-top-rip-mobile; } }
 @keyframes real-pack-top-rip-mobile { 0% { opacity:1; transform:perspective(520px) rotateX(0deg); } 100% { opacity:1; transform:perspective(520px) rotateX(68deg) translateY(-28%); } }
 
+/* Structure rows stay aligned even when a slot can use ten rarities. */
+.structure-panel-v2 .slot {
+  display:grid!important;
+  grid-template-columns:36px minmax(0,1fr) auto!important;
+  align-items:start!important;
+  gap:10px!important;
+  min-width:0;
+}
+.structure-panel-v2 .slot-index {
+  display:grid!important;
+  place-items:center!important;
+  justify-self:center!important;
+  width:30px!important;
+  height:30px!important;
+  margin-top:4px;
+  padding:0!important;
+  line-height:1!important;
+  text-align:center!important;
+}
+.structure-panel-v2 .slot-rarity-buttons {
+  display:grid!important;
+  grid-template-columns:repeat(auto-fit,minmax(76px,1fr));
+  gap:6px!important;
+  min-width:0;
+  width:100%;
+}
+.structure-panel-v2 .slot-rarity-button {
+  width:100%!important;
+  min-width:0!important;
+  min-height:34px;
+  padding:7px 8px!important;
+  overflow:hidden;
+  text-align:center!important;
+  text-overflow:ellipsis;
+  white-space:nowrap;
+  line-height:1.1;
+}
+.structure-panel-v2 .slot-rarity-button::before { margin-right:4px; }
+.structure-panel-v2 .slot > button {
+  align-self:center;
+  white-space:nowrap;
+}
+@media (max-width:600px) {
+  .structure-panel-v2 .slot {
+    grid-template-columns:32px minmax(0,1fr) auto!important;
+    gap:6px!important;
+    padding:7px 5px!important;
+  }
+  .structure-panel-v2 .slot-index { width:28px!important; height:28px!important; }
+  .structure-panel-v2 .slot-rarity-buttons { grid-template-columns:repeat(auto-fit,minmax(68px,1fr)); gap:5px!important; }
+  .structure-panel-v2 .slot-rarity-button { padding:7px 4px!important; font-size:10px; }
+  .structure-panel-v2 .slot > button { padding:6px 4px; font-size:10px; }
+}
+
 /* Runtime override: keep the real image split and rarity treatment above legacy rules. */
 .opening .opening-shell .stage .card-stack .pack-waiting.pack-ripping {
   position:relative!important; display:block!important; overflow:visible!important;
@@ -1208,3 +1262,49 @@ body::before { background: radial-gradient(circle at 8% 0%, color-mix(in srgb, v
 .series-filter-bar::-webkit-scrollbar { display:none!important; width:0!important; height:0!important; }
 .series-filter-bar { cursor:grab; user-select:none; }
 .series-filter-bar.is-dragging { cursor:grabbing; }
+
+/* Final structure-row alignment after the legacy editor cascade. */
+.structure-panel-v2 .slot {
+  display:grid!important;
+  grid-template-columns:36px minmax(0,1fr) auto!important;
+  align-items:start!important;
+  gap:10px!important;
+}
+.structure-panel-v2 .slot-index {
+  display:grid!important;
+  place-items:center!important;
+  justify-self:center!important;
+  width:30px!important;
+  height:30px!important;
+  margin-top:4px;
+  padding:0!important;
+  line-height:1!important;
+  text-align:center!important;
+}
+.structure-panel-v2 .slot-rarity-buttons {
+  display:grid!important;
+  grid-template-columns:repeat(auto-fit,minmax(76px,1fr));
+  gap:6px!important;
+  min-width:0;
+  width:100%;
+}
+.structure-panel-v2 .slot-rarity-button {
+  width:100%!important;
+  min-width:0!important;
+  min-height:34px;
+  padding:7px 8px!important;
+  overflow:hidden;
+  text-align:center!important;
+  text-overflow:ellipsis;
+  white-space:nowrap;
+  line-height:1.1;
+}
+.structure-panel-v2 .slot-rarity-button::before { margin-right:4px; }
+.structure-panel-v2 .slot > button { align-self:center; white-space:nowrap; }
+@media (max-width:600px) {
+  .structure-panel-v2 .slot { grid-template-columns:32px minmax(0,1fr) auto!important; gap:6px!important; padding:7px 5px!important; }
+  .structure-panel-v2 .slot-index { width:28px!important; height:28px!important; }
+  .structure-panel-v2 .slot-rarity-buttons { grid-template-columns:repeat(auto-fit,minmax(68px,1fr)); gap:5px!important; }
+  .structure-panel-v2 .slot-rarity-button { padding:7px 4px!important; font-size:10px; }
+  .structure-panel-v2 .slot > button { padding:6px 4px; font-size:10px; }
+}

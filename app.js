@@ -123,6 +123,7 @@ speedrunModal = function() {
   return safeSpeedrunModal().replace('class="choice-backdrop" data-action="close-speedrun-menu"', 'class="choice-backdrop"');
 };
 render();
+
 setInterval(() => { if (view.speedrun?.mode === 'rush' && !view.speedrun.finished && performance.now() - view.speedrun.started >= view.speedrun.limit) finishRush(); }, 100);
 
 // Legacy startup callbacks above replace `opening` once; restore the current renderer after they finish.
@@ -423,3 +424,18 @@ editor = function() {
     .replace('<p class="helper">Hold Ctrl on Windows or Cmd on Mac to choose multiple rarities in a slot.</p>', '');
 };
 render();
+
+// New card rows should be visible immediately in their own rarity column.
+const actionWithCardPoolAutoscroll = action;
+action = function(type, meta={}) {
+  if (type === 'add-card') {
+    const rarityIndex = view.editor?.rarities?.findIndex(rarity => rarity.id === meta.rarity) ?? -1;
+    actionWithCardPoolAutoscroll(type, meta);
+    requestAnimationFrame(() => {
+      const list = document.querySelectorAll('.rarity-card-list')[rarityIndex];
+      if (list) list.scrollTop = list.scrollHeight;
+    });
+    return;
+  }
+  actionWithCardPoolAutoscroll(type, meta);
+};

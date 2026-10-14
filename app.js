@@ -1,6 +1,10 @@
 const STORAGE_KEY = 'cpos-data-v1';
+const THEME_KEY = 'cpos-theme-v1';
+const THEMES = { mint: '#0b171d', paper: '#f3efe5', ocean: '#071a31', ember: '#211313' };
 const uid = () => Math.random().toString(36).slice(2, 10);
 let data = load(); data.series = Array.isArray(data.series) ? data.series : []; let view = { page: 'home', query: '', rarity: 'all', seriesFilter: 'all', seriesFilters: [], packId: null, editor: null, opening: null, revealIndex: -1 };
+function applyTheme(theme) { const next = Object.prototype.hasOwnProperty.call(THEMES, theme) ? theme : 'mint'; document.documentElement.dataset.theme = next; document.querySelector('#theme-select')?.setAttribute('value', next); const select = document.querySelector('#theme-select'); if (select) select.value = next; document.querySelector('meta[name="theme-color"]')?.setAttribute('content', THEMES[next]); localStorage.setItem(THEME_KEY, next); }
+applyTheme(localStorage.getItem(THEME_KEY) || 'mint');
 function load() { try { const saved = JSON.parse(localStorage.getItem(STORAGE_KEY)); if (!saved?.packs) return { packs: [], obtained: {} }; if (saved.packs.length === 1 && saved.packs[0].name === 'Astral Horizons') return { packs: [], obtained: {} }; saved.obtained = saved.obtained || {}; saved.packs = saved.packs.map(p => ({ ...p, rarities: p.rarities || [], slots: (p.slots || []).map(slot => Array.isArray(slot) ? slot : [slot]), cards: p.cards || [] })); return saved; } catch { return { packs: [], obtained: {} }; } }
 function save() { localStorage.setItem(STORAGE_KEY, JSON.stringify(data)); }
 function escapeHtml(value='') { return String(value).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[c])); }
@@ -119,6 +123,7 @@ const baseRenderWithManual = render;
 render = function() { clearTimeout(previewTimer); document.getElementById('card-preview')?.remove(); document.querySelectorAll('body > .manual-backdrop').forEach(node => node.remove()); baseRenderWithManual(); if (view.page === 'home' && !document.querySelector('.manual-trigger')) { document.querySelector('.hero, .dashboard-hero')?.insertAdjacentHTML('afterbegin', '<button class="manual-trigger" title="Open manual" aria-label="Open manual" data-action="manual">?</button>'); bind(); } if (view.manual) { const existing = document.querySelector('#app .manual'); if (existing) { existing.innerHTML = manualBody(); bind(); } else { document.querySelector('#app')?.insertAdjacentHTML('beforeend', `<div class="manual-backdrop" data-action="close-manual"><section class="manual" role="dialog" aria-modal="true">${manualBody()}</section></div>`); bind(); } } };
 document.addEventListener('keydown', e => { if (e.key === '?' && !['INPUT','TEXTAREA','SELECT'].includes(e.target.tagName)) { e.preventDefault(); action('manual'); } });
 let previewTimer;
+document.addEventListener('change', event => { if (event.target.id === 'theme-select') applyTheme(event.target.value); });
 let seriesDrag = null;
 document.addEventListener('wheel', event => { const bar = event.target.closest?.('.series-filter-bar'); if (!bar || Math.abs(event.deltaY) <= Math.abs(event.deltaX)) return; bar.scrollLeft += event.deltaY; event.preventDefault(); }, { passive:false });
 document.addEventListener('pointerdown', event => { const bar = event.target.closest?.('.series-filter-bar'); if (!bar || event.pointerType === 'touch') return; seriesDrag = { bar, id:event.pointerId, x:event.clientX, scroll:bar.scrollLeft, moved:false }; bar.classList.add('is-dragging'); bar.setPointerCapture?.(event.pointerId); });

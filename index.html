@@ -20,6 +20,15 @@
         <div class="topbar-actions">
           <button class="text-button" data-action="import"><span>↓</span> Import</button>
           <button class="text-button" data-action="export"><span>↑</span> Export</button>
+          <label class="theme-picker" title="Change theme">
+            <span aria-hidden="true">◐</span>
+            <select id="theme-select" aria-label="Choose web theme">
+              <option value="mint">Mint</option>
+              <option value="paper">Paper</option>
+              <option value="ocean">Ocean</option>
+              <option value="ember">Ember</option>
+            </select>
+          </label>
           <button class="button button-primary" data-action="new-pack">+ New pack</button>
         </div>
       </header>
@@ -29,6 +38,6 @@
       <input id="structure-file" type="file" accept=".json,.txt,application/json,text/plain" hidden />
       <div id="toast" class="toast" role="status"></div>
     </div>
-    <script src="app.js?v=66"></script>
+    <script src="app.js?v=67"></script>
   </body>
 </html>

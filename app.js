@@ -107,6 +107,16 @@ editor = function() {
 };
 render();
 
+// Re-rendering the editor should not throw the user back to the top of a card pool.
+const renderWithPoolScroll = render;
+render = function() {
+  const scrollPositions = Array.from(document.querySelectorAll('.rarity-card-list')).map(list => list.scrollTop);
+  renderWithPoolScroll();
+  document.querySelectorAll('.rarity-card-list').forEach((list, index) => {
+    if (scrollPositions[index] !== undefined) list.scrollTop = scrollPositions[index];
+  });
+};
+
 // Do not let the Play modal backdrop consume clicks intended for its selects.
 const safeSpeedrunModal = speedrunModal;
 speedrunModal = function() {

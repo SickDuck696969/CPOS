@@ -558,14 +558,6 @@ body::before { background: radial-gradient(circle at 8% 0%, color-mix(in srgb, v
   padding:16px;
   background:linear-gradient(160deg, var(--surface-raised), var(--surface));
 }
-.editor-grid-v2 > .panel:first-child::before {
-  content:"01  PACK IDENTITY";
-  display:block;
-  margin:0 0 13px;
-  color:var(--mint);
-  font:500 10px "DM Mono",monospace;
-  letter-spacing:.14em;
-}
 .editor-grid-v2 .cover-preview { height:auto; aspect-ratio:2 / 3; margin-bottom:14px; }
 .editor-grid-v2 .cover-preview .pack-cover { height:100%; aspect-ratio:auto; }
 .editor-grid-v2 .field:last-child { margin-bottom:0; }
@@ -630,18 +622,9 @@ body::before { background: radial-gradient(circle at 8% 0%, color-mix(in srgb, v
   gap:0 12px;
   align-content:start;
 }
-.editor-info-panel::before {
-  content:"01  PACK INFORMATION";
-  grid-column:1/-1;
-  display:block;
-  margin:0 0 13px;
-  color:var(--mint);
-  font:500 10px "DM Mono",monospace;
-  letter-spacing:.14em;
-}
 .editor-info-panel .cover-preview,
 .editor-info-panel .box-cover-preview {
-  grid-row:2;
+  grid-row:1;
   min-width:0;
   margin:0 0 16px;
   padding:10px;
@@ -689,7 +672,6 @@ body::before { background: radial-gradient(circle at 8% 0%, color-mix(in srgb, v
 }
 @media (max-width:600px) {
   .editor-info-panel { display:block; }
-  .editor-info-panel::before { margin-bottom:13px; }
   .editor-info-panel .cover-preview,
   .editor-info-panel .box-cover-preview { max-width:260px; margin-left:auto; margin-right:auto; }
   .editor-info-panel .series-editor-fields { display:block; }

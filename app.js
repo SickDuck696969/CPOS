@@ -372,7 +372,7 @@ const editorWithBoxField = editor;
 editor = function() {
     const html = editorWithBoxField();
     const boxUrl = String(view.editor.boxCover || '').trim();
-    const preview = `<div class="box-cover-preview"><span>Box cover preview</span><div class="box-cover-preview-art">${boxUrl ? `<img src="${escapeHtml(boxUrl)}" alt="Box cover preview" />` : '<span class="box-cover-placeholder">Paste a box cover URL to preview it here.</span>'}</div></div>`;
+    const preview = `<div class="box-cover-preview"><span>Box cover</span><div class="box-cover-preview-art">${boxUrl ? `<img src="${escapeHtml(boxUrl)}" alt="Box cover" />` : '<span class="box-cover-placeholder">Paste a box cover URL to preview it here.</span>'}</div></div>`;
     return html.replace('<div class="field"><label>Box cover image URL</label>', `${preview}<div class="field"><label>Box cover image URL</label>`);
 };
 

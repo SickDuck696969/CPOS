@@ -392,3 +392,13 @@ if (typeof enhancedPackCard !== 'undefined') {
         return applyBoxCoverFormat(baseEnhancedPackCard(pack, i), pack);
     };
 }
+
+// Give the editor one stable visual shell after the legacy render layers finish.
+const cleanEditorBase = editor;
+editor = function() {
+  return cleanEditorBase()
+    .replace('<section class="editor-head"', '<section class="editor-head editor-head-v2"')
+    .replace('<div class="editor-grid">', '<div class="editor-grid editor-grid-v2">')
+    .replace('<div class="panel cards-section">', '<div class="panel cards-section cards-section-v2">');
+};
+render();

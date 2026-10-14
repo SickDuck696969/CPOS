@@ -536,6 +536,111 @@ body::before { background: radial-gradient(circle at 8% 0%, color-mix(in srgb, v
   .result-card small { font-size:6px; }
 }
 
+/* Pack editor v2: identity, setup, then card pools. */
+.editor-head-v2 {
+  display:flex;
+  align-items:flex-end;
+  justify-content:space-between;
+  gap:24px;
+  padding:clamp(28px, 5vw, 58px) 0 22px;
+}
+.editor-head-v2::before {
+  content:"CREATE / EDIT PACK";
+  position:absolute;
+  margin-top:-64px;
+  color:var(--mint);
+  font:500 10px "DM Mono",monospace;
+  letter-spacing:.18em;
+}
+.editor-head-v2 h1 { margin:0; font-size:clamp(32px, 5vw, 58px); }
+.editor-head-v2 .editor-actions { display:flex; gap:8px; }
+.editor-grid-v2 {
+  display:grid;
+  grid-template-columns:minmax(250px, .78fr) minmax(0, 1.7fr);
+  gap:16px;
+  align-items:start;
+}
+.editor-grid-v2 > .panel:first-child {
+  position:sticky;
+  top:18px;
+  padding:16px;
+  background:linear-gradient(160deg, var(--surface-raised), var(--surface));
+}
+.editor-grid-v2 > .panel:first-child::before {
+  content:"01  PACK IDENTITY";
+  display:block;
+  margin:0 0 13px;
+  color:var(--mint);
+  font:500 10px "DM Mono",monospace;
+  letter-spacing:.14em;
+}
+.editor-grid-v2 .cover-preview { height:auto; aspect-ratio:2 / 3; margin-bottom:14px; }
+.editor-grid-v2 .cover-preview .pack-cover { height:100%; aspect-ratio:auto; }
+.editor-grid-v2 .field:last-child { margin-bottom:0; }
+.editor-grid-v2 > .editor-stack { gap:16px; }
+.editor-grid-v2 > .editor-stack > .panel { padding:20px; }
+.editor-grid-v2 > .editor-stack > .panel:first-child::before,
+.editor-grid-v2 > .editor-stack > .panel:nth-child(2)::before {
+  display:block;
+  margin-bottom:8px;
+  color:var(--mint);
+  font:500 10px "DM Mono",monospace;
+  letter-spacing:.14em;
+}
+.editor-grid-v2 > .editor-stack > .panel:first-child::before { content:"02  RARITIES"; }
+.editor-grid-v2 > .editor-stack > .panel:nth-child(2)::before { content:"03  PACK STRUCTURE"; }
+.editor-grid-v2 .panel h2 { font-size:20px; letter-spacing:-.03em; }
+.editor-grid-v2 .panel > p { max-width:520px; margin-bottom:16px; }
+.editor-grid-v2 .row { align-items:end; }
+.editor-grid-v2 .row .field { margin-bottom:0; }
+.editor-grid-v2 .inline-add { height:44px; margin-bottom:0; }
+.editor-grid-v2 .tag-list { padding-top:14px; border-top:1px solid var(--line); }
+.editor-grid-v2 .structure-tools { margin:2px 0 14px; }
+.editor-grid-v2 .structure-tools .small-button { border:1px solid var(--line); background:transparent; border-radius:8px; }
+.editor-grid-v2 .slot-list { max-height:300px; padding-right:4px; overflow:auto; }
+.editor-grid-v2 .slot { padding:8px 10px; }
+.editor-grid-v2 .slot-index { color:var(--mint); }
+.editor-grid-v2 .slot-rarity-buttons { flex:1; }
+.cards-section-v2 {
+  margin-top:16px;
+  padding:22px;
+  background:var(--surface);
+}
+.cards-section-v2 > h2 { margin-bottom:6px; font-size:22px; }
+.cards-section-v2 > p { max-width:650px; margin-bottom:20px; }
+.cards-section-v2 .rarity-columns { grid-template-columns:repeat(auto-fit,minmax(300px,1fr)); gap:14px; }
+.cards-section-v2 .rarity-block { padding:14px; background:color-mix(in srgb, var(--surface-raised) 62%, transparent); }
+.cards-section-v2 .rarity-title { padding-bottom:11px; border-bottom:1px solid var(--line); }
+.cards-section-v2 .rarity-title h3 { font-size:16px; }
+.cards-section-v2 .rarity-card-list { max-height:420px; padding:4px 5px 4px 0; }
+.cards-section-v2 .card-entry { grid-template-columns:58px minmax(0,1fr) 1.15fr auto; gap:8px; }
+.cards-section-v2 .card-entry .thumb { width:58px!important; border-radius:8px; }
+.cards-section-v2 .small-button:not(.delete) { width:100%; border:1px solid var(--line); border-radius:8px; background:transparent; }
+.cards-section-v2 .small-button:not(.delete):hover { border-color:var(--line-strong); color:var(--mint); }
+@media (max-width:900px) {
+  .editor-grid-v2 { grid-template-columns:1fr; }
+  .editor-grid-v2 > .panel:first-child { position:static; display:grid; grid-template-columns:minmax(150px,.55fr) minmax(0,1fr); gap:0 16px; }
+  .editor-grid-v2 > .panel:first-child::before { grid-column:1/-1; }
+  .editor-grid-v2 .cover-preview { grid-row:span 3; }
+  .editor-grid-v2 .field { grid-column:2; }
+  .cards-section-v2 .rarity-columns { grid-template-columns:repeat(2,minmax(0,1fr)); }
+}
+@media (max-width:600px) {
+  .editor-head-v2 { display:block; }
+  .editor-head-v2 .editor-actions { margin-top:18px; }
+  .editor-head-v2 .editor-actions .button { flex:1; }
+  .editor-grid-v2 > .panel:first-child { display:block; }
+  .editor-grid-v2 .cover-preview { max-width:260px; margin:0 auto 16px; }
+  .editor-grid-v2 .field { margin-bottom:13px; }
+  .editor-grid-v2 > .editor-stack > .panel, .cards-section-v2 { padding:15px; }
+  .editor-grid-v2 .row { display:grid; grid-template-columns:1fr auto; }
+  .editor-grid-v2 .row .field { min-width:0; }
+  .cards-section-v2 .rarity-columns { grid-template-columns:1fr; }
+  .cards-section-v2 .card-entry { grid-template-columns:52px minmax(0,1fr) auto; }
+  .cards-section-v2 .card-entry .thumb { width:52px!important; }
+  .cards-section-v2 .card-entry input[data-key="image"] { grid-column:2/-1; }
+}
+
 /* Real pack split: the cover itself is clipped into a lower body and hinged top. */
 .opening .pack-waiting .pack-art-body { display:block!important; position:absolute; inset:0; overflow:hidden; opacity:1; }
 .opening .pack-waiting .pack-art-top { display:none!important; position:absolute; inset:0; overflow:hidden; z-index:3; pointer-events:none; }

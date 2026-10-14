@@ -641,6 +641,87 @@ body::before { background: radial-gradient(circle at 8% 0%, color-mix(in srgb, v
   .cards-section-v2 .card-entry input[data-key="image"] { grid-column:2/-1; }
 }
 
+/* Pack information workspace: artwork first, metadata second. */
+.editor-info-panel {
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:0 12px;
+  align-content:start;
+}
+.editor-info-panel::before {
+  content:"01  PACK INFORMATION";
+  grid-column:1/-1;
+  display:block;
+  margin:0 0 13px;
+  color:var(--mint);
+  font:500 10px "DM Mono",monospace;
+  letter-spacing:.14em;
+}
+.editor-info-panel .cover-preview,
+.editor-info-panel .box-cover-preview {
+  grid-row:2;
+  min-width:0;
+  margin:0 0 16px;
+  padding:10px;
+  border:1px solid var(--line);
+  border-radius:12px;
+  background:color-mix(in srgb, var(--surface-raised) 58%, transparent);
+}
+.editor-info-panel .cover-preview { grid-column:1; }
+.editor-info-panel .box-cover-preview { grid-column:2; }
+.editor-info-panel .cover-preview::before,
+.editor-info-panel .box-cover-preview > span {
+  display:block;
+  margin:0 0 8px;
+  color:var(--muted);
+  font:500 9px "DM Mono",monospace;
+  letter-spacing:.1em;
+  text-transform:uppercase;
+}
+.editor-info-panel .cover-preview::before { content:"Pack cover"; }
+.editor-info-panel .cover-preview .pack-cover { height:auto; aspect-ratio:2/3; border-radius:9px; }
+.editor-info-panel .box-cover-preview-art { aspect-ratio:1/1; border-radius:9px; background:var(--bg-soft); }
+.editor-info-panel .box-cover-preview-art img { border-radius:9px; }
+.editor-info-panel > .field { grid-column:1/-1; margin-bottom:12px; }
+.editor-info-panel > .field:first-of-type { margin-top:1px; }
+.editor-info-panel > .field label,
+.editor-info-panel .series-editor-fields .field label { color:var(--muted); }
+.editor-info-panel > .field input,
+.editor-info-panel .series-editor-fields input,
+.editor-info-panel .series-editor-fields select { background:var(--bg-soft); }
+.editor-info-panel .series-editor-fields {
+  grid-column:1/-1;
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:0 12px;
+  margin:2px 0 4px;
+  padding:14px 0 0;
+  border-top:1px solid var(--line);
+}
+.editor-info-panel .series-editor-fields .field:first-child { grid-column:1/-1; }
+.editor-info-panel .series-editor-fields .field { min-width:0; margin-bottom:12px; }
+.editor-info-panel .series-editor-fields::before {
+  content:"SERIES";
+  grid-column:1/-1;
+  margin-bottom:10px;
+  color:var(--mint);
+  font:500 9px "DM Mono",monospace;
+  letter-spacing:.14em;
+}
+.editor-info-panel > .field:last-child { margin-bottom:0; }
+@media (max-width:900px) {
+  .editor-info-panel { grid-template-columns:repeat(2,minmax(0,1fr)); }
+  .editor-info-panel .cover-preview, .editor-info-panel .box-cover-preview { max-width:none; }
+}
+@media (max-width:600px) {
+  .editor-info-panel { display:block; }
+  .editor-info-panel::before { margin-bottom:13px; }
+  .editor-info-panel .cover-preview,
+  .editor-info-panel .box-cover-preview { max-width:260px; margin-left:auto; margin-right:auto; }
+  .editor-info-panel .series-editor-fields { display:block; }
+  .editor-info-panel .series-editor-fields .field { margin-bottom:12px; }
+}
+
 /* Real pack split: the cover itself is clipped into a lower body and hinged top. */
 .opening .pack-waiting .pack-art-body { display:block!important; position:absolute; inset:0; overflow:hidden; opacity:1; }
 .opening .pack-waiting .pack-art-top { display:none!important; position:absolute; inset:0; overflow:hidden; z-index:3; pointer-events:none; }

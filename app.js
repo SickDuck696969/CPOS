@@ -399,6 +399,7 @@ editor = function() {
   return cleanEditorBase()
     .replace('<section class="editor-head"', '<section class="editor-head editor-head-v2"')
     .replace('<div class="editor-grid">', '<div class="editor-grid editor-grid-v2">')
+    .replace('<div class="editor-grid editor-grid-v2"><div class="panel">', '<div class="editor-grid editor-grid-v2"><div class="panel editor-info-panel">')
     .replace('<div class="panel cards-section">', '<div class="panel cards-section cards-section-v2">');
 };
 render();

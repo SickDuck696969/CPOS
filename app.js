@@ -400,6 +400,14 @@ editor = function() {
     .replace('<section class="editor-head"', '<section class="editor-head editor-head-v2"')
     .replace('<div class="editor-grid">', '<div class="editor-grid editor-grid-v2">')
     .replace('<div class="editor-grid editor-grid-v2"><div class="panel">', '<div class="editor-grid editor-grid-v2"><div class="panel editor-info-panel">')
-    .replace('<div class="panel cards-section">', '<div class="panel cards-section cards-section-v2">');
+    .replace('<div class="panel cards-section">', '<div class="panel cards-section cards-section-v2">')
+    .replace('<div class="eyebrow">Pack workshop</div>', '')
+    .replace('<h2>01 / Rarity system</h2>', '<h2>Rarities</h2>')
+    .replace('<h2>02 / Pack structure</h2>', '<h2>Pack structure</h2>')
+    .replace('<h2>03 / Card list</h2>', '<h2>Card pools</h2>')
+    .replace('<p>Define only the rarities this pack actually uses.</p>', '')
+    .replace('<p>Each slot can randomly use one or more selected rarities.</p>', '')
+    .replace('<p>Add cards under their rarity. Card pools are used when a slot rolls that rarity.</p>', '')
+    .replace('<p class="helper">Hold Ctrl on Windows or Cmd on Mac to choose multiple rarities in a slot.</p>', '');
 };
 render();

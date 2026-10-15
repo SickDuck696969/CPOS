@@ -840,6 +840,25 @@ body::before { background: radial-gradient(circle at 8% 0%, color-mix(in srgb, v
   .structure-panel-v2 .slot > button { padding:6px 4px; font-size:10px; }
 }
 
+/* Last-pass card artwork cleanup. UI containers may be rounded, card pixels may not. */
+.opening-card,
+.opening-card img,
+.opening-card .cover-fallback,
+.collection-card img,
+.collection-card .mini-fallback,
+.review-card > img,
+.review-card > .cover-fallback,
+.result-card-image,
+.result-card-image img,
+.result-card-image .cover-fallback,
+.speedrun-result-card img,
+.speedrun-result-card .cover-fallback,
+.cards-section .rarity-card-list .thumb {
+  border-radius:0!important;
+  clip-path:none!important;
+}
+.opening-card { overflow:visible!important; }
+
 /* Runtime override: keep the real image split and rarity treatment above legacy rules. */
 .opening .opening-shell .stage .card-stack .pack-waiting.pack-ripping {
   position:relative!important; display:block!important; overflow:visible!important;
@@ -1317,6 +1336,8 @@ body::before { background: radial-gradient(circle at 8% 0%, color-mix(in srgb, v
 }
 .structure-panel-v2 .slot-rarity-button::before { margin-right:4px; }
 .structure-panel-v2 .slot > button { align-self:center; white-space:nowrap; }
+.structure-panel-v2 > .structure-tools { align-self:end; margin:0 0 15px!important; display:flex; gap:7px; }
+.structure-panel-v2 > .structure-tools .small-button { min-height:44px; height:44px; }
 @media (max-width:600px) {
   .structure-panel-v2 .slot { grid-template-columns:32px minmax(0,1fr) auto!important; gap:6px!important; padding:7px 5px!important; }
   .structure-panel-v2 .slot-index { width:28px!important; height:28px!important; }
@@ -1324,3 +1345,22 @@ body::before { background: radial-gradient(circle at 8% 0%, color-mix(in srgb, v
   .structure-panel-v2 .slot-rarity-button { padding:7px 4px!important; font-size:10px; }
   .structure-panel-v2 .slot > button { padding:6px 4px; font-size:10px; }
 }
+
+/* Card artwork has no radius or clip mask anywhere in the final cascade. */
+.opening-card,
+.opening-card img,
+.opening-card .cover-fallback,
+.collection-card img,
+.collection-card .mini-fallback,
+.review-card > img,
+.review-card > .cover-fallback,
+.result-card-image,
+.result-card-image img,
+.result-card-image .cover-fallback,
+.speedrun-result-card img,
+.speedrun-result-card .cover-fallback,
+.cards-section .rarity-card-list .thumb {
+  border-radius:0!important;
+  clip-path:none!important;
+}
+.opening-card { overflow:visible!important; }
